@@ -8,15 +8,26 @@ export type RootStackParamList = {
   NotFound: undefined;
 };
 
-export type BottomTabParamList = {
-  TabOne: undefined;
-  TabTwo: undefined;
+export type DrawerParamList = {
+  Home: undefined;
+  HelpScreen: undefined;
 };
 
-export type TabOneParamList = {
-  TabOneScreen: undefined;
+export type HomeStackParamList = {
+  HomeScreen: undefined;
+  RoomScreen: undefined;
 };
 
-export type TabTwoParamList = {
-  TabTwoScreen: undefined;
+export type Message = {
+  id: number;
+  username: string;
+  created_at: string;
+  content: string;
+  user_photo: string;
+};
+
+export type Room = {
+  id: number;
+  room_name: string;
+  room_photo: string | null;
 };
