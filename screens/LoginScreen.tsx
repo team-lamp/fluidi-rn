@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { API_URL } from "../constants/secrets";
 
-export default function Login() {
+export default function Login({ setIsAuthenticated }: any) {
   const [username, setUsername] = useState("chance");
   const [password, setPassword] = useState("password");
   return (
@@ -58,8 +58,10 @@ export default function Login() {
       });
       const parsedResponse = await response.json();
       console.log(parsedResponse);
+      // if successful (meaning we got here), set authenticated to true
+      setIsAuthenticated(true);
     } catch (err) {
-      console.log("error", err);
+      console.log("error", err)
     }
   }
 }

@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Icon } from "native-base";
 import { Pressable } from "react-native";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 
+import AppLoading from "../AppLoading";
 import RoomScreen from "../screens/RoomScreen";
 import HomeScreen from "../screens/HomeScreen";
 import HelpScreen from "../screens/HelpScreen";
@@ -18,23 +19,26 @@ const HomeStack = createStackNavigator<HomeStackParamList>();
 
 const HomeStackNavigator = () => {
   return (
-    <HomeStack.Navigator
-      initialRouteName="HomeScreen"
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: colors.background,
-        },
-      }}
-    >
-      <HomeStack.Screen
-        name="HomeScreen"
-        component={HomeScreen}
-        options={{
-          headerTitle: "Rooms",
+    <AppLoading>
+      <HomeStack.Navigator
+        initialRouteName="HomeScreen"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: colors.background,
+          },
         }}
-      />
-      <HomeStack.Screen name="RoomScreen" component={RoomScreen} />
-    </HomeStack.Navigator>
+      >
+        {/* <HomeStack.Screen name="AppLoading" component={AppLoading} /> */}
+        <HomeStack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{
+            headerTitle: "Rooms",
+          }}
+        />
+        <HomeStack.Screen name="RoomScreen" component={RoomScreen} />
+      </HomeStack.Navigator>
+    </AppLoading>
   );
 };
 

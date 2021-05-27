@@ -7,6 +7,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 import NotFoundScreen from "../screens/NotFoundScreen";
+import LoginScreen from "../screens/LoginScreen";
 import { RootStackParamList } from "../types";
 import DrawerNavigator from "./DrawerNavigator";
 
@@ -29,6 +30,11 @@ function RootNavigator() {
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
+        options={{ title: "Oops!" }}
+      />
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
         options={{ title: "Oops!" }}
       />
     </Stack.Navigator>

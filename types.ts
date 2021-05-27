@@ -6,6 +6,7 @@
 export type RootStackParamList = {
   Root: undefined;
   NotFound: undefined;
+  Login: undefined;
 };
 
 export type DrawerParamList = {
@@ -14,6 +15,7 @@ export type DrawerParamList = {
 };
 
 export type HomeStackParamList = {
+  AppLoading: undefined;
   HomeScreen: undefined;
   RoomScreen: undefined;
 };
