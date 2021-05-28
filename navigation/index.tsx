@@ -3,17 +3,21 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import LoginScreen from "../screens/LoginScreen";
 import { RootStackParamList } from "../types";
 import DrawerNavigator from "./DrawerNavigator";
+import { colors, headerStyle } from "../constants/styleGuide";
+
+const navTheme = DefaultTheme;
+navTheme.colors.background = colors.background;
 
 export default function Navigation() {
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={navTheme}>
       <RootNavigator />
     </NavigationContainer>
   );
@@ -24,8 +28,13 @@ export default function Navigation() {
 const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  // @ts-ignore
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Stack.Screen name="Root" component={DrawerNavigator} />
       <Stack.Screen
         name="NotFound"
@@ -35,7 +44,7 @@ function RootNavigator() {
       <Stack.Screen
         name="Login"
         component={LoginScreen}
-        options={{ title: "Oops!" }}
+        options={{ title: "Login" }}
       />
     </Stack.Navigator>
   );

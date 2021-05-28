@@ -9,6 +9,7 @@ import Text from "./themed/Text";
 import { Body, ListItem, View, Thumbnail } from "native-base";
 import { colors } from "../constants/styleGuide";
 import { Room } from "../types";
+import moment from "moment";
 
 interface RoomListItemProps extends TouchableOpacityProps {
   navigation: any;
@@ -16,16 +17,42 @@ interface RoomListItemProps extends TouchableOpacityProps {
 }
 
 const RoomListItem = ({ navigation, room }: RoomListItemProps) => {
+  const isOnline = moment(new Date()).diff(room.lastOnline) < 120000;
+
   const handlePress = () => {
-    navigation.navigate("RoomScreen", { room_name: room.room_name });
+    navigation.navigate("RoomScreen", {
+      room_name: room.room_name,
+      avatar: room.room_photo,
+      lastOnline: room.lastOnline,
+    });
   };
 
   return (
     <TouchableOpacity onPress={handlePress} style={styles.itemContainer}>
       {room.room_photo ? (
-        <Thumbnail small source={{ uri: room.room_photo }} />
+        <Thumbnail
+          source={{ uri: room.room_photo }}
+          style={[
+            styles.avatar,
+            {
+              borderColor: isOnline
+                ? colors.actions.play
+                : colors.secondaryText,
+            },
+          ]}
+        />
       ) : (
-        <View style={styles.blankThumbnail}>
+        <View
+          style={[
+            styles.blankThumbnail,
+            styles.avatar,
+            {
+              borderColor: isOnline
+                ? colors.actions.play
+                : colors.secondaryText,
+            },
+          ]}
+        >
           <Text variant="body" style={styles.blankThumbnailText}>
             {room.room_name[0]}
           </Text>
@@ -44,16 +71,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  avatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 60 / 2,
+    borderWidth: 3,
+  },
   blankThumbnail: {
-    width: 36,
-    height: 36,
-    borderRadius: 36 / 2,
-    backgroundColor: colors.secondaryText,
+    backgroundColor: colors.secondaryBackground,
     alignItems: "center",
     justifyContent: "center",
   },
   blankThumbnailText: {
-    color: colors.background,
+    color: colors.contrastText,
   },
 });
 

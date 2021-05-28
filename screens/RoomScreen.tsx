@@ -67,6 +67,7 @@ const RoomScreen = ({ route, navigation }: any) => {
     const messageToSend = { ...messageTemplate, content: newMessage };
     setMessages([messageToSend, ...messages]);
     setNewMessage("");
+    // @ts-ignore
     inputRef.current.clear();
   };
 

@@ -7,29 +7,35 @@ import { colors } from "../constants/styleGuide";
 
 interface MessageProps {
   message: MessageType;
-  showAvatar: boolean;
+  isOwnMessage: boolean;
+  showDetails: boolean;
 }
 
-const Message = ({ message, showAvatar }: MessageProps) => {
+const Message = ({ message, showDetails, isOwnMessage }: MessageProps) => {
   return (
     <View style={styles.container}>
-      {showAvatar ? (
-        <View style={styles.leftSpace}>
+      {showDetails && !isOwnMessage ? (
+        <View style={styles.space}>
           <Thumbnail small source={{ uri: message.user_photo }} />
         </View>
       ) : (
-        <View style={styles.leftSpace} />
+        <View style={styles.space} />
       )}
       <View style={styles.contentContainer}>
-        {showAvatar && (
-          <View style={styles.nameAndDateContainer}>
-            <Text variant="caption" style={styles.name}>
-              {message.username}
-            </Text>
-            <Text variant="caption">{message.created_at}</Text>
-          </View>
+        <Text
+          variant="body"
+          style={{ textAlign: isOwnMessage ? "right" : "left" }}
+        >
+          {message.content}
+        </Text>
+        {showDetails && (
+          <Text
+            variant="caption"
+            style={{ textAlign: isOwnMessage ? "right" : "left" }}
+          >
+            {message.created_at}
+          </Text>
         )}
-        <Text variant="body">{message.content}</Text>
       </View>
     </View>
   );
@@ -41,9 +47,8 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
     flexDirection: "row",
-    alignItems: "flex-start",
   },
-  leftSpace: {
+  space: {
     width: 50,
   },
   contentContainer: {
