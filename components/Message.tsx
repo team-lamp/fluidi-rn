@@ -14,11 +14,9 @@ const Message = ({ message, showAvatar }: MessageProps) => {
   return (
     <View style={styles.container}>
       {showAvatar ? (
-        <Thumbnail
-          small
-          source={{ uri: message.user_photo }}
-          style={styles.leftSpace}
-        />
+        <View style={styles.leftSpace}>
+          <Thumbnail small source={{ uri: message.user_photo }} />
+        </View>
       ) : (
         <View style={styles.leftSpace} />
       )}

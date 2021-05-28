@@ -11,7 +11,7 @@ import { colors } from "../constants/styleGuide";
 
 const user = {
   photo:
-    "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80",
+    "https://scontent-ort2-2.xx.fbcdn.net/v/t1.6435-9/119815423_3332879713474763_8048010738081328737_n.jpg?_nc_cat=103&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=Zj4PekDIPHEAX_zCmxf&_nc_ht=scontent-ort2-2.xx&oh=295e3be89c1131937c94122678249a3f&oe=60D5797F",
   username: "Chancey-Poo",
 };
 
@@ -27,11 +27,16 @@ const DrawerContent = ({ navigation, ...rest }: any) => {
           <Thumbnail large source={{ uri: user.photo }} />
           <Text variant="header">{user.username}</Text>
         </View>
-        <DrawerItemList {...rest} />
+        {/* <DrawerItemList {...rest} /> */}
         <DrawerItem
-          label="HelpScreen"
+          label="Home"
           labelStyle={styles.label}
-          onPress={() => handleNavigationPress("Help")}
+          onPress={() => handleNavigationPress("HomeScreen")}
+        />
+        <DrawerItem
+          label="Help"
+          labelStyle={styles.label}
+          onPress={() => handleNavigationPress("HelpScreen")}
         />
       </View>
     </DrawerContentScrollView>

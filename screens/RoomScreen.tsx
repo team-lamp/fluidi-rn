@@ -1,136 +1,127 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import MessageList from "../components/MessageList";
 import Text from "../components/themed/Text";
 import {
   StyleSheet,
   TextInput,
-  SafeAreaView,
   TouchableOpacity,
-  TouchableOpacityProps,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
 import { Icon, View } from "native-base";
 import { colors } from "../constants/styleGuide";
-import useKeyboardHeight from "react-native-use-keyboard-height";
+import KeyboardSpacer from "react-native-keyboard-spacer";
+import { Message } from "../types";
 
-interface IconButtonProps extends TouchableOpacityProps {
-  isSelected: boolean;
-  iconName: string;
-  iconType:
-    | "AntDesign"
-    | "Entypo"
-    | "EvilIcons"
-    | "Feather"
-    | "FontAwesome"
-    | "FontAwesome5"
-    | "Foundation"
-    | "Ionicons"
-    | "MaterialCommunityIcons"
-    | "MaterialIcons"
-    | "Octicons"
-    | "SimpleLineIcons"
-    | "Zocial"
-    | undefined;
-}
+const DATA: Message[] = [
+  {
+    id: 38,
+    username: "Katie",
+    created_at: new Date().toDateString(),
+    content: "Hey check this out, blah blah blah.",
+    user_photo:
+      "https://scontent-ort2-2.xx.fbcdn.net/v/t1.6435-9/161102903_10158001431472322_1672271331533195877_n.jpg?_nc_cat=107&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=DM8jSvIN4aIAX_b5mn1&_nc_ht=scontent-ort2-2.xx&oh=ec0e0a593c40c19531bf177e32f59b27&oe=60D76938",
+  },
+  {
+    id: 89,
+    username: "You",
+    created_at: new Date().toDateString(),
+    content: "Oh wow, so cool!",
+    user_photo:
+      "https://scontent-ort2-2.xx.fbcdn.net/v/t1.6435-9/119815423_3332879713474763_8048010738081328737_n.jpg?_nc_cat=103&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=Zj4PekDIPHEAX_zCmxf&_nc_ht=scontent-ort2-2.xx&oh=295e3be89c1131937c94122678249a3f&oe=60D5797F",
+  },
+  {
+    id: 105,
+    username: "Katie",
+    created_at: new Date().toDateString(),
+    content: "Thanks, lol.",
+    user_photo:
+      "https://scontent-ort2-2.xx.fbcdn.net/v/t1.6435-9/161102903_10158001431472322_1672271331533195877_n.jpg?_nc_cat=107&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=DM8jSvIN4aIAX_b5mn1&_nc_ht=scontent-ort2-2.xx&oh=ec0e0a593c40c19531bf177e32f59b27&oe=60D76938",
+  },
+  {
+    id: 138,
+    username: "Katie",
+    created_at: new Date().toDateString(),
+    content: "I thought it was awesome.",
+    user_photo:
+      "https://scontent-ort2-2.xx.fbcdn.net/v/t1.6435-9/161102903_10158001431472322_1672271331533195877_n.jpg?_nc_cat=107&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=DM8jSvIN4aIAX_b5mn1&_nc_ht=scontent-ort2-2.xx&oh=ec0e0a593c40c19531bf177e32f59b27&oe=60D76938",
+  },
+];
 
-const IconButton = ({
-  onPress,
-  isSelected,
-  iconName,
-  iconType,
-}: IconButtonProps) => (
-  <TouchableOpacity onPress={onPress}>
-    <Icon
-      type={iconType}
-      name={iconName}
-      fontSize={20}
-      color={isSelected ? colors.brand : colors.secondaryText}
-    />
-  </TouchableOpacity>
-);
+const messageTemplate = {
+  id: Date.now(),
+  username: "You",
+  created_at: new Date().toDateString(),
+  content: "",
+  user_photo:
+    "https://scontent-ort2-2.xx.fbcdn.net/v/t1.6435-9/119815423_3332879713474763_8048010738081328737_n.jpg?_nc_cat=103&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=Zj4PekDIPHEAX_zCmxf&_nc_ht=scontent-ort2-2.xx&oh=295e3be89c1131937c94122678249a3f&oe=60D5797F",
+};
 
 const RoomScreen = ({ route, navigation }: any) => {
-  const { room_name } = route.params;
-  const [selectedIconList, setSelectedIconList] = useState({
-    photo: false,
-    camera: false,
-    microphone: false,
-  });
+  const inputRef = useRef(null);
+  const [messages, setMessages] = useState(DATA);
   const [newMessage, setNewMessage] = useState("");
-  const keyboardHeight = useKeyboardHeight();
+  const [padding, setPadding] = useState(20);
+  const showSendButton = Boolean(newMessage && newMessage.length);
 
-  const handlePhotoPress = () => {
-    const currentValue = selectedIconList.photo;
-    // if not selected, open photos...
-    setSelectedIconList({
-      camera: false,
-      microphone: false,
-      photo: !currentValue,
-    });
+  const handleSendMessage = () => {
+    const messageToSend = { ...messageTemplate, content: newMessage };
+    setMessages([messageToSend, ...messages]);
+    setNewMessage("");
+    inputRef.current.clear();
   };
 
-  const handleCameraPress = () => {
-    const currentValue = selectedIconList.camera;
-    // if not selected, open camera
-    setSelectedIconList({
-      photo: false,
-      microphone: false,
-      camera: !currentValue,
-    });
-  };
+  const handlePhotoPress = () => {};
 
-  const handleMicrophonePress = () => {
-    const currentValue = selectedIconList.microphone;
-    // if not selected, open record modal
-    setSelectedIconList({
-      photo: false,
-      camera: false,
-      microphone: !currentValue,
-    });
-  };
+  const handleCameraPress = () => {};
+
+  Keyboard.addListener("keyboardWillShow", () => setPadding(10));
+  Keyboard.addListener("keyboardWillHide", () => setPadding(20));
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text variant="title">{room_name}</Text>
-      {/* <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.container}
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
-      <MessageList />
-      <View style={[styles.bottomContainer, { paddingBottom: keyboardHeight }]}>
-        <TextInput
-          value={newMessage}
-          onChangeText={(text) => setNewMessage(text)}
-          style={styles.textInput}
-        />
-        <View style={styles.iconContainer}>
-          <IconButton
-            onPress={handlePhotoPress}
-            isSelected={selectedIconList.photo}
-            iconName="photo"
-            iconType="FontAwesome"
-          />
-          <IconButton
-            onPress={handleCameraPress}
-            isSelected={selectedIconList.camera}
-            iconName="camera-retro"
-            iconType="FontAwesome"
-          />
-          <IconButton
-            onPress={handleMicrophonePress}
-            isSelected={selectedIconList.microphone}
-            iconName="mic"
-            iconType="Feather"
-          />
+    <View style={styles.container}>
+      <MessageList messages={messages} />
+      <TextInput
+        ref={inputRef}
+        multiline
+        style={styles.textInput}
+        onChangeText={(text) => setNewMessage(text)}
+      />
+      <View style={[styles.iconContainer, { paddingBottom: padding }]}>
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity onPress={handlePhotoPress}>
+            <Icon
+              type="FontAwesome"
+              name="photo"
+              style={{
+                color: colors.secondaryText,
+                marginRight: 20,
+              }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleCameraPress}>
+            <Icon
+              type="FontAwesome"
+              name="camera-retro"
+              style={{
+                color: colors.secondaryText,
+              }}
+            />
+          </TouchableOpacity>
         </View>
+        {showSendButton && (
+          <TouchableOpacity onPress={handleSendMessage}>
+            <Icon
+              type="Feather"
+              name="send"
+              style={{
+                color: colors.brand,
+              }}
+            />
+          </TouchableOpacity>
+        )}
       </View>
-      {/* </TouchableWithoutFeedback>
-      </KeyboardAvoidingView> */}
-    </SafeAreaView>
+      <KeyboardSpacer />
+    </View>
   );
 };
 
@@ -139,20 +130,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
-  bottomContainer: {
-    width: "100%",
-    backgroundColor: colors.brand,
-    padding: 10,
-  },
   textInput: {
     backgroundColor: colors.secondaryBackground,
-    padding: 5,
+    color: colors.contrastText,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
     fontSize: 20,
-    // height: 20,
+    maxHeight: 200,
   },
   iconContainer: {
     flexDirection: "row",
-    paddingVertical: 5,
+    paddingTop: 10,
+    paddingHorizontal: 20,
+    justifyContent: "space-between",
   },
 });
 

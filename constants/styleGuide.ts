@@ -1,7 +1,7 @@
 const colors = {
   brand: "#07C3AE",
   background: "#000000",
-  secondaryBackground: "#4B4B4B",
+  secondaryBackground: "#151515",
   contrastText: "#ffffff",
   secondaryText: "#BDBDBD",
   actions: {

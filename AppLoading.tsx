@@ -19,28 +19,26 @@ import LoginScreen from "./screens/LoginScreen";
 // };
 
 const AppLoading = ({ children }: any) => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+  const [isLoaded, setIsLoaded] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   // load fonts and stuff here first, then set loading to true
 
-  setTimeout(() => {
-      //pretend to load fonts
-      setIsLoaded(true);
-  }, 200)
+  //   setTimeout(() => {
+  //       //pretend to load fonts
+  //       setIsLoaded(true);
+  //   }, 200)
   if (!isLoaded) {
-      return (
-          <View>
-              <Text>Loading</Text>
-          </View>
-      )
+    return (
+      <View>
+        <Text>Loading</Text>
+      </View>
+    );
   }
 
   if (!isAuthenticated) {
-      return <LoginScreen setIsAuthenticated={setIsAuthenticated}/>
+    return <LoginScreen setIsAuthenticated={setIsAuthenticated} />;
   }
-
 
   if (isLoaded && isAuthenticated) return children;
 };
