@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^12.0.0",
+    "@react-native-async-storage/async-storage": "^1.13.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "5.11.2",
     "@react-navigation/drawer": "^5.12.5",
@@ -41,7 +42,7 @@
     "react-native-web": "~0.13.12",
     "socket.io-client": "^4.1.2",
     "zustand": "^3.5.1",
-    "react-native-web": "~0.13.12"
+    "zustand-persist": "^0.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

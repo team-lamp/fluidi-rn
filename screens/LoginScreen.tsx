@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import {
@@ -16,7 +17,6 @@ export default function Login() {
   const [password, setPassword] = useState("password");
   const navigation = useNavigation();
   const socket = useStore((state) => state.socket);
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Fluidi</Text>
