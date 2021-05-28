@@ -10,14 +10,25 @@ import RoomScreen from "../screens/RoomScreen";
 import HomeScreen from "../screens/HomeScreen";
 import HelpScreen from "../screens/HelpScreen";
 import DrawerContent from "./DrawerContent";
-
+import Text from "../components/themed/Text";
 import { colors } from "../constants/styleGuide";
-
 import { DrawerParamList, HomeStackParamList } from "../types";
+
+const MenuButton = () => {
+  const navigation = useNavigation();
+  const toggleDrawer = () => navigation.dispatch(DrawerActions.toggleDrawer());
+  return (
+    <Pressable hitSlop={10} onPress={toggleDrawer}>
+      <Icon type="Feather" name="menu" color={colors.brand} />
+    </Pressable>
+  );
+};
 
 const HomeStack = createStackNavigator<HomeStackParamList>();
 
 const HomeStackNavigator = () => {
+  const [currentRoomName, setCurrentRoomName] = useState("");
+
   return (
     <AppLoading>
       <HomeStack.Navigator
@@ -26,9 +37,11 @@ const HomeStackNavigator = () => {
           headerStyle: {
             backgroundColor: colors.background,
           },
+          headerTitleStyle: {
+            color: colors.contrastText,
+          },
         }}
       >
-        {/* <HomeStack.Screen name="AppLoading" component={AppLoading} /> */}
         <HomeStack.Screen
           name="HomeScreen"
           component={HomeScreen}
@@ -36,20 +49,13 @@ const HomeStackNavigator = () => {
             headerTitle: "Rooms",
           }}
         />
-        <HomeStack.Screen name="RoomScreen" component={RoomScreen} />
+        <HomeStack.Screen
+          name="RoomScreen"
+          component={RoomScreen}
+          options={({ route }) => ({ title: route.params.room_name })}
+        />
       </HomeStack.Navigator>
     </AppLoading>
-  );
-};
-
-const MenuButton = () => {
-  const navigation = useNavigation();
-  const toggleDrawer = () => navigation.dispatch(DrawerActions.toggleDrawer());
-
-  return (
-    <Pressable hitSlop={10} onPress={toggleDrawer}>
-      <Icon type="Feather" name="menu" color={colors.brand} />
-    </Pressable>
   );
 };
 
@@ -64,7 +70,7 @@ const DrawerNavigator = () => {
       drawerContent={(props) => <DrawerContent {...props} />}
       overlayColor="transparent"
       screenOptions={{
-        headerLeft: () => <MenuButton />,
+        headerShown: false,
       }}
     >
       <Drawer.Screen name="Home" component={HomeStackNavigator} />

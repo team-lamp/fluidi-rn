@@ -29,12 +29,12 @@ const styles = StyleSheet.create({
   body: {
     color: colors.contrastText,
     fontSize: 20,
-    fontWeight: "200",
+    fontWeight: "300",
   },
   header: {
     color: colors.contrastText,
     fontSize: 25,
-    fontWeight: "300",
+    fontWeight: "400",
   },
   title: {
     color: colors.contrastText,
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   caption: {
     color: colors.secondaryText,
     fontSize: 14,
-    fontWeight: "100",
+    fontWeight: "200",
   },
 });
 
