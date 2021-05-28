@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 60 / 2,
-    borderWidth: 3,
+    borderWidth: 2,
   },
   blankThumbnail: {
     backgroundColor: colors.secondaryBackground,

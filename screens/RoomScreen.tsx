@@ -81,12 +81,14 @@ const RoomScreen = ({ route, navigation }: any) => {
   return (
     <View style={styles.container}>
       <MessageList messages={messages} />
-      <TextInput
-        ref={inputRef}
-        multiline
-        style={styles.textInput}
-        onChangeText={(text) => setNewMessage(text)}
-      />
+      <View style={{ paddingHorizontal: 20 }}>
+        <TextInput
+          ref={inputRef}
+          multiline
+          style={styles.textInput}
+          onChangeText={(text) => setNewMessage(text)}
+        />
+      </View>
       <View style={[styles.iconContainer, { paddingBottom: padding }]}>
         <View style={{ flexDirection: "row" }}>
           <TouchableOpacity onPress={handlePhotoPress}>
@@ -132,17 +134,19 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   textInput: {
-    backgroundColor: colors.secondaryBackground,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: colors.secondaryText,
     color: colors.contrastText,
-    paddingHorizontal: 10,
-    paddingVertical: 15,
+    padding: 10,
     fontSize: 20,
+    minHeight: 40,
     maxHeight: 200,
   },
   iconContainer: {
     flexDirection: "row",
     paddingTop: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 25,
     justifyContent: "space-between",
   },
 });

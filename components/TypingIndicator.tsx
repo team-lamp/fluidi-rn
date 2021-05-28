@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo } from "react";
 import { StyleSheet, Animated } from "react-native";
 import { TypingAnimation } from "react-native-typing-animation";
-import { useUpdateLayoutEffect } from "../hooks/useUpdateLayoutEffect";
 import { colors } from "../constants/styleGuide";
 
 interface TypingIndicatorProps {
@@ -25,12 +24,12 @@ const TypingIndicator = ({ isTyping }: TypingIndicatorProps) => {
         useNativeDriver: false,
       }),
       Animated.timing(heightScale, {
-        toValue: 35,
+        toValue: 40,
         duration: 250,
         useNativeDriver: false,
       }),
       Animated.timing(marginScale, {
-        toValue: 8,
+        toValue: 10,
         duration: 250,
         useNativeDriver: false,
       }),
@@ -81,9 +80,9 @@ const TypingIndicator = ({ isTyping }: TypingIndicatorProps) => {
     >
       {isTyping ? (
         <TypingAnimation
-          style={{ marginLeft: 6, marginTop: 7.2 }}
-          dotRadius={4}
-          dotMargin={5.5}
+          style={{ marginLeft: 15, marginTop: 7.2 }}
+          dotRadius={3.5}
+          dotMargin={6}
           dotColor={colors.contrastText}
         />
       ) : null}
@@ -93,10 +92,10 @@ const TypingIndicator = ({ isTyping }: TypingIndicatorProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginLeft: 8,
-    width: 45,
+    marginLeft: 10,
+    width: 60,
     borderRadius: 15,
-    backgroundColor: colors.brand,
+    backgroundColor: colors.secondaryBackground,
   },
 });
 

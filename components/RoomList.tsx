@@ -41,16 +41,6 @@ const DATA: Room[] = [
   },
 ];
 
-const Separator = () => (
-  <View
-    style={{
-      height: 2,
-      width: "100%",
-      backgroundColor: colors.secondaryBackground,
-    }}
-  />
-);
-
 const RoomList = ({ navigation }: any) => {
   return (
     <FlatList
@@ -60,7 +50,7 @@ const RoomList = ({ navigation }: any) => {
       )}
       keyExtractor={(item) => String(item.id)}
       style={styles.list}
-      ItemSeparatorComponent={Separator}
+      ItemSeparatorComponent={() => <View style={styles.separator} />}
     />
   );
 };
@@ -69,6 +59,11 @@ const styles = StyleSheet.create({
   list: {
     backgroundColor: colors.background,
     flex: 1,
+  },
+  separator: {
+    height: 2,
+    width: "100%",
+    backgroundColor: colors.secondaryBackground,
   },
 });
 

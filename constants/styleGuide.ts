@@ -3,12 +3,13 @@ import { ViewStyle } from "react-native";
 const colors = {
   brand: "#07C3AE",
   background: "#000000",
-  secondaryBackground: "#151515",
+  secondaryBackground: "#1F1E1E",
   contrastText: "#ffffff",
-  secondaryText: "#BDBDBD",
+  secondaryText: "#6C6C6C",
+  dim: "#444444",
   actions: {
     stop: "#CA5562",
-    play: "#07C3AE",
+    play: "#79B431",
     record: "#C51A2D",
   },
 };

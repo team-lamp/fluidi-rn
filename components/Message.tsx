@@ -13,29 +13,23 @@ interface MessageProps {
 
 const Message = ({ message, showDetails, isOwnMessage }: MessageProps) => {
   return (
-    <View style={styles.container}>
-      {showDetails && !isOwnMessage ? (
-        <View style={styles.space}>
-          <Thumbnail small source={{ uri: message.user_photo }} />
-        </View>
-      ) : (
-        <View style={styles.space} />
-      )}
-      <View style={styles.contentContainer}>
-        <Text
-          variant="body"
-          style={{ textAlign: isOwnMessage ? "right" : "left" }}
-        >
-          {message.content}
-        </Text>
-        {showDetails && (
-          <Text
-            variant="caption"
-            style={{ textAlign: isOwnMessage ? "right" : "left" }}
-          >
-            {message.created_at}
-          </Text>
-        )}
+    <View
+      style={[
+        styles.container,
+        { alignItems: isOwnMessage ? "flex-end" : "flex-start" },
+      ]}
+    >
+      <View
+        style={[
+          styles.contentContainer,
+          {
+            backgroundColor: isOwnMessage
+              ? colors.brand
+              : colors.secondaryBackground,
+          },
+        ]}
+      >
+        <Text variant="body">{message.content}</Text>
       </View>
     </View>
   );
@@ -43,17 +37,16 @@ const Message = ({ message, showDetails, isOwnMessage }: MessageProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.background,
     width: "100%",
-    padding: 10,
-    flexDirection: "row",
-  },
-  space: {
-    width: 50,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
   },
   contentContainer: {
-    justifyContent: "flex-start",
-    flex: 1,
+    maxWidth: "75%",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    alignItems: "center",
+    borderRadius: 15,
   },
   nameAndDateContainer: {
     flexDirection: "row",
