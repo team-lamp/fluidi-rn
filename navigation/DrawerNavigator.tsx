@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { Icon } from "native-base";
-import { Pressable } from "react-native";
+import { Icon, Thumbnail, Button } from "native-base";
+import { Pressable, View } from "react-native";
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 
 import AppLoading from "../AppLoading";
@@ -11,7 +11,8 @@ import HomeScreen from "../screens/HomeScreen";
 import HelpScreen from "../screens/HelpScreen";
 import DrawerContent from "./DrawerContent";
 import Text from "../components/themed/Text";
-import { colors } from "../constants/styleGuide";
+import RoomScreenHeader from "../components/RoomScreenHeader";
+import { colors, headerStyle } from "../constants/styleGuide";
 import { DrawerParamList, HomeStackParamList } from "../types";
 
 const MenuButton = () => {
@@ -19,7 +20,7 @@ const MenuButton = () => {
   const toggleDrawer = () => navigation.dispatch(DrawerActions.toggleDrawer());
   return (
     <Pressable hitSlop={10} onPress={toggleDrawer}>
-      <Icon type="Feather" name="menu" color={colors.brand} />
+      <Icon type="Feather" name="menu" style={{ color: colors.brand }} />
     </Pressable>
   );
 };
@@ -27,32 +28,50 @@ const MenuButton = () => {
 const HomeStack = createStackNavigator<HomeStackParamList>();
 
 const HomeStackNavigator = () => {
-  const [currentRoomName, setCurrentRoomName] = useState("");
-
   return (
     <AppLoading>
       <HomeStack.Navigator
         initialRouteName="HomeScreen"
         screenOptions={{
-          headerStyle: {
-            backgroundColor: colors.background,
-          },
+          headerStyle,
           headerTitleStyle: {
             color: colors.contrastText,
+            fontSize: 20,
           },
+          headerTintColor: colors.brand,
+          headerTitleAlign: "center",
         }}
       >
         <HomeStack.Screen
           name="HomeScreen"
           component={HomeScreen}
-          options={{
-            headerTitle: "Rooms",
-          }}
+          options={({ navigation }) => ({
+            title: "Rooms",
+            headerLeft: () => <MenuButton />,
+          })}
         />
         <HomeStack.Screen
           name="RoomScreen"
           component={RoomScreen}
-          options={({ route }) => ({ title: route.params.room_name })}
+          options={({ route, navigation }) => ({
+            headerTitle: () => (
+              <RoomScreenHeader
+                navigation={navigation}
+                avatar={route.params.avatar}
+                title={route.params.room_name}
+              />
+            ),
+            headerLeft: () => (
+              <Button transparent onPress={() => navigation.pop()}>
+                <Icon
+                  type="Ionicons"
+                  name="chevron-back-outline"
+                  style={{ color: colors.brand }}
+                  fontSize={30}
+                />
+              </Button>
+            ),
+          })}
         />
       </HomeStack.Navigator>
     </AppLoading>
@@ -66,7 +85,7 @@ const DrawerNavigator = () => {
     <Drawer.Navigator
       drawerStyle={{ backgroundColor: colors.secondaryBackground, padding: 10 }}
       drawerPosition="left"
-      drawerType="slide"
+      drawerType="front"
       drawerContent={(props) => <DrawerContent {...props} />}
       overlayColor="transparent"
       screenOptions={{

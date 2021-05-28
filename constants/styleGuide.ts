@@ -1,3 +1,5 @@
+import { ViewStyle } from "react-native";
+
 const colors = {
   brand: "#07C3AE",
   background: "#000000",
@@ -11,4 +13,9 @@ const colors = {
   },
 };
 
-export { colors };
+const headerStyle: ViewStyle = {
+  height: 100,
+  backgroundColor: colors.background,
+};
+
+export { colors, headerStyle };

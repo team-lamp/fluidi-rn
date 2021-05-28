@@ -32,4 +32,5 @@ export type Room = {
   id: number;
   room_name: string;
   room_photo: string | null;
+  lastOnline: object;
 };
