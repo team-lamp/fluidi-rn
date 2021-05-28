@@ -9,9 +9,10 @@ import {
   Dimensions,
   KeyboardAvoidingView,
 } from "react-native";
+
 import useStore from "../store";
 
-export default function Login() {
+export default function Register() {
   const [username, setUsername] = useState("chance");
   const [password, setPassword] = useState("password");
   const navigation = useNavigation();
@@ -37,22 +38,26 @@ export default function Login() {
         <TouchableOpacity
           style={styles.loginButton}
           onPress={() => {
-            socket?.emit("login", { username, password });
+            socket?.emit("register", { username, password });
           }}
         >
-          <Text>Login</Text>
+          <Text>Register</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.registerLink}
+          style={styles.loginLink}
           onPress={() => {
-            navigation.navigate("Register");
+            navigation.navigate("Login");
           }}
         >
-          <Text>New? Click here to register</Text>
+          <Text>Already have an account? Click here to login</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
     </View>
   );
+
+  async function register(username: string, password: string) {
+    socket?.emit("register", { username, password });
+  }
 }
 
 const styles = StyleSheet.create({
@@ -85,10 +90,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 7.5,
     padding: 10,
-    paddingHorizontal: 40,
+    width: Dimensions.get("screen").width / 3,
     alignItems: "center",
   },
-  registerLink: {
+  loginLink: {
     borderWidth: 1,
     borderRadius: 7.5,
     padding: 10,
