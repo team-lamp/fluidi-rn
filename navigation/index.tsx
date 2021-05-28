@@ -6,14 +6,17 @@
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
-import NotFoundScreen from "../screens/NotFoundScreen";
-import LoginScreen from "../screens/LoginScreen";
 import { RootStackParamList } from "../types";
 import DrawerNavigator from "./DrawerNavigator";
 import { colors, headerStyle } from "../constants/styleGuide";
 
 const navTheme = DefaultTheme;
 navTheme.colors.background = colors.background;
+
+import NotFoundScreen from "../screens/NotFoundScreen";
+import LoginScreen from "../screens/LoginScreen";
+import RegisterScreen from "../screens/RegisterScreen";
+
 
 export default function Navigation() {
   return (
@@ -45,6 +48,11 @@ function RootNavigator() {
         name="Login"
         component={LoginScreen}
         options={{ title: "Login" }}
+      />
+      <Stack.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={{ title: "Register" }}
       />
     </Stack.Navigator>
   );

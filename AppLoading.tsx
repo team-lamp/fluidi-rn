@@ -1,33 +1,26 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { View, Text } from "react-native";
+import { io } from "socket.io-client";
 import LoginScreen from "./screens/LoginScreen";
 
-// const AppLoading = ({ navigation }: any) => {
-//   const [isAuthenticated, setIsAuthenticated] = useState(true);
-//   if (isAuthenticated) {
-//       navigation.navigate("HomeScreen")
-//   }
-//   return (
-//     <View style={{
-//         backgroundColor: 'black',
-//         height: 1000000
-//     }}>
-//       <Text>Loading . . .</Text>
-//     </View>
-//   );
-// };
+import useStore from "./store";
 
 const AppLoading = ({ children }: any) => {
+  // not sure what this is loading exactly
   const [isLoaded, setIsLoaded] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const setSocket = useStore((state) => state.setSocket);
+  useEffect(() => {
+    // connect to the socket server
+    const socket = io("https://young-emu-38.loca.lt");
+    socket.on("token", (token: string) => {
+      console.log(token);
+    });
+    setSocket(socket);
+  }, []);
 
   // load fonts and stuff here first, then set loading to true
-
-  //   setTimeout(() => {
-  //       //pretend to load fonts
-  //       setIsLoaded(true);
-  //   }, 200)
   if (!isLoaded) {
     return (
       <View>
