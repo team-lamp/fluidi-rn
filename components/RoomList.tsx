@@ -1,4 +1,5 @@
 import React from "react";
+import { View } from "react-native";
 import { StyleSheet, FlatList } from "react-native";
 import { colors } from "../constants/styleGuide";
 import { Room } from "../types";
@@ -40,6 +41,16 @@ const DATA: Room[] = [
   },
 ];
 
+const Separator = () => (
+  <View
+    style={{
+      height: 2,
+      width: "100%",
+      backgroundColor: colors.secondaryBackground,
+    }}
+  />
+);
+
 const RoomList = ({ navigation }: any) => {
   return (
     <FlatList
@@ -49,6 +60,7 @@ const RoomList = ({ navigation }: any) => {
       )}
       keyExtractor={(item) => String(item.id)}
       style={styles.list}
+      ItemSeparatorComponent={Separator}
     />
   );
 };

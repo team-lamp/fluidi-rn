@@ -18,12 +18,13 @@ interface RoomListItemProps extends TouchableOpacityProps {
 
 const RoomListItem = ({ navigation, room }: RoomListItemProps) => {
   const isOnline = moment(new Date()).diff(room.lastOnline) < 120000;
+  const lastOnline = moment(room.lastOnline).fromNow();
 
   const handlePress = () => {
     navigation.navigate("RoomScreen", {
       room_name: room.room_name,
       avatar: room.room_photo,
-      lastOnline: room.lastOnline,
+      lastOnline: lastOnline,
     });
   };
 
@@ -58,7 +59,10 @@ const RoomListItem = ({ navigation, room }: RoomListItemProps) => {
           </Text>
         </View>
       )}
-      <Text variant="header">{room.room_name}</Text>
+      <View style={{ flexDirection: "column", paddingLeft: 10 }}>
+        <Text variant="header">{room.room_name}</Text>
+        <Text variant="caption">{lastOnline}</Text>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -67,7 +71,8 @@ const styles = StyleSheet.create({
   itemContainer: {
     backgroundColor: colors.background,
     width: "100%",
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
     flexDirection: "row",
     alignItems: "center",
   },
