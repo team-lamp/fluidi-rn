@@ -22,17 +22,18 @@ const RoomListItem = ({ navigation, room }: RoomListItemProps) => {
 
   const handlePress = () => {
     navigation.navigate("RoomScreen", {
-      room_name: room.room_name,
-      avatar: room.room_photo,
-      lastOnline: lastOnline,
+      name: room.name,
+      avatar: room.photo,
+      lastOnline: room.lastOnline,
+      room_name: room.name,
     });
   };
 
   return (
     <TouchableOpacity onPress={handlePress} style={styles.itemContainer}>
-      {room.room_photo ? (
+      {room.photo ? (
         <Thumbnail
-          source={{ uri: room.room_photo }}
+          source={{ uri: room.photo }}
           style={[
             styles.avatar,
             {
@@ -55,12 +56,13 @@ const RoomListItem = ({ navigation, room }: RoomListItemProps) => {
           ]}
         >
           <Text variant="body" style={styles.blankThumbnailText}>
-            {room.room_name[0]}
+            {room.name[0]}
           </Text>
         </View>
       )}
+      <Text variant="header">{room.name}</Text>
       <View style={{ flexDirection: "column", paddingLeft: 10, flex: 1 }}>
-        <Text variant="header">{room.room_name}</Text>
+        <Text variant="header">{room.name}</Text>
         <Text variant="caption">{lastOnline}</Text>
       </View>
       <Icon
