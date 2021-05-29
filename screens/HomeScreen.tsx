@@ -1,13 +1,11 @@
 import React from "react";
 import RoomList from "../components/RoomList";
 import { View, StyleSheet } from "react-native";
+import useStore from "../store";
 
 const HomeScreen = ({ navigation }: any) => {
-<<<<<<< HEAD
-=======
   const token = useStore((state) => state.token);
 
->>>>>>> aa839dbbbeb6b0bcd426cae588666c3ecc817660
   return (
     <View style={styles.container}>
       <RoomList navigation={navigation} />
