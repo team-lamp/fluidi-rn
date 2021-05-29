@@ -1,12 +1,6 @@
 import React, { useState, useRef } from "react";
 import MessageList from "../components/MessageList";
-import {
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  Keyboard,
-  Text,
-} from "react-native";
+import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { Icon, View } from "native-base";
 import { colors } from "../constants/styleGuide";
 import KeyboardSpacer from "react-native-keyboard-spacer";
@@ -60,7 +54,6 @@ const RoomScreen = ({ route, navigation }: any) => {
   const inputRef = useRef(null);
   const [messages, setMessages] = useState(DATA);
   const [newMessage, setNewMessage] = useState("");
-  const [padding, setPadding] = useState(20);
   const showSendButton = Boolean(newMessage && newMessage.length);
 
   const handleSendMessage = () => {
@@ -75,9 +68,6 @@ const RoomScreen = ({ route, navigation }: any) => {
 
   const handleCameraPress = () => {};
 
-  Keyboard.addListener("keyboardWillShow", () => setPadding(10));
-  Keyboard.addListener("keyboardWillHide", () => setPadding(20));
-
   return (
     <View style={styles.container}>
       <MessageList messages={messages} />
@@ -91,27 +81,20 @@ const RoomScreen = ({ route, navigation }: any) => {
           onChangeText={(text) => setNewMessage(text)}
         />
       </View>
-      <View style={[styles.iconContainer, { paddingBottom: padding }]}>
-        <View style={{ flexDirection: "row", marginLeft: 10 }}>
+      <View style={styles.iconContainer}>
+        <View style={styles.leftIconContainer}>
           <TouchableOpacity onPress={handlePhotoPress}>
             <Icon
               type="SimpleLineIcons"
               name="picture"
-              style={{
-                color: colors.lowOpacity.white,
-                fontSize: 25,
-                marginRight: 20,
-              }}
+              style={[{ marginRight: 20 }, styles.leftIcons]}
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={handleCameraPress}>
             <Icon
               type="SimpleLineIcons"
               name="camera"
-              style={{
-                color: colors.lowOpacity.white,
-                fontSize: 25,
-              }}
+              style={styles.leftIcons}
             />
           </TouchableOpacity>
         </View>
@@ -120,9 +103,7 @@ const RoomScreen = ({ route, navigation }: any) => {
             <Icon
               type="SimpleLineIcons"
               name="paper-plane"
-              style={{
-                color: colors.brand,
-              }}
+              style={{ color: colors.brand }}
             />
           </TouchableOpacity>
         )}
@@ -149,11 +130,18 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     flexDirection: "row",
-    paddingTop: 10,
+    paddingVertical: 10,
     paddingHorizontal: 25,
     justifyContent: "space-between",
   },
-
+  leftIconContainer: {
+    flexDirection: "row",
+    marginLeft: 10,
+  },
+  leftIcons: {
+    color: colors.lowOpacity.white,
+    fontSize: 25,
+  },
 });
 
 export default RoomScreen;

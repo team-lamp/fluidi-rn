@@ -7,6 +7,7 @@ export type RootStackParamList = {
   Root: undefined;
   NotFound: undefined;
   Login: undefined;
+  Register: undefined;
 };
 
 export type DrawerParamList = {
@@ -18,11 +19,8 @@ export type HomeStackParamList = {
   AppLoading: undefined;
   HomeScreen: undefined;
   RoomScreen: undefined;
-};
-
-export type BottomTabParamList = {
-  Rooms: undefined;
-  Contacts: undefined;
+  TalkScreen: undefined;
+  ContactDetails: undefined;
 };
 
 export type Message = {

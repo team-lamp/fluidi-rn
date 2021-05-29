@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.contrastText,
-    fontSize: 35,
+    fontSize: 30,
     fontWeight: "600",
   },
   caption: {

@@ -4,11 +4,11 @@ import { View } from "native-base";
 import Text from "../components/themed/Text";
 import { colors } from "../constants/styleGuide";
 
-const ContactsScreen = ({ navigation }: any) => {
+const TalkScreen = ({ navigation }: any) => {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <Text variant="title">Contacts Screen</Text>
+        <Text variant="title">Talk Screen</Text>
       </View>
     </SafeAreaView>
   );
@@ -21,4 +21,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ContactsScreen;
+export default TalkScreen;

@@ -5,8 +5,8 @@ import HelpScreen from "../screens/HelpScreen";
 import DrawerContent from "./DrawerContent";
 import { colors, headerStyle } from "../constants/styleGuide";
 import { DrawerParamList } from "../types";
-import BottomTabNavigator from "./BottomTabNavigator";
 import MenuButton from "../components/MenuButton";
+import HomeStackNavigator from "./HomeStackNavigator";
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -31,7 +31,7 @@ const DrawerNavigator = () => {
     >
       <Drawer.Screen
         name="Home"
-        component={BottomTabNavigator}
+        component={HomeStackNavigator}
         options={{
           headerShown: false,
           drawerIcon: () => (

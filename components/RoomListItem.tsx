@@ -11,6 +11,21 @@ import { colors } from "../constants/styleGuide";
 import { Room } from "../types";
 import moment from "moment";
 
+const members = [
+  {
+    id: 20,
+    name: "Katie",
+    avatar:
+      "https://scontent-ort2-2.xx.fbcdn.net/v/t1.6435-9/161102903_10158001431472322_1672271331533195877_n.jpg?_nc_cat=107&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=DM8jSvIN4aIAX_b5mn1&_nc_ht=scontent-ort2-2.xx&oh=ec0e0a593c40c19531bf177e32f59b27&oe=60D76938",
+  },
+  {
+    id: 39,
+    name: "Jason",
+    avatar:
+      "https://cdn-images-1.listennotes.com/podcasts/crazy-white-guy-28-sings-classics-tBndR_QGwSp-8ti_4k2wIb9.1400x1400.jpg",
+  },
+];
+
 interface RoomListItemProps extends TouchableOpacityProps {
   navigation: any;
   room: Room;
@@ -19,14 +34,19 @@ interface RoomListItemProps extends TouchableOpacityProps {
 const RoomListItem = ({ navigation, room }: RoomListItemProps) => {
   const isOnline = moment(new Date()).diff(room.lastOnline) < 120000;
   const lastOnline = moment(room.lastOnline).fromNow();
+  const isGroup = true;
+  const defaultParams = {
+    name: room.name,
+    avatar: room.photo,
+    lastOnline: room.lastOnline,
+    room_name: room.name,
+    isGroup,
+  };
+
+  const paramsToPass = isGroup ? { ...defaultParams, members } : defaultParams;
 
   const handlePress = () => {
-    navigation.navigate("RoomScreen", {
-      name: room.name,
-      avatar: room.photo,
-      lastOnline: room.lastOnline,
-      room_name: room.name,
-    });
+    navigation.navigate("RoomScreen", paramsToPass);
   };
 
   return (
@@ -60,7 +80,6 @@ const RoomListItem = ({ navigation, room }: RoomListItemProps) => {
           </Text>
         </View>
       )}
-      <Text variant="header">{room.name}</Text>
       <View style={{ flexDirection: "column", paddingLeft: 10, flex: 1 }}>
         <Text variant="header">{room.name}</Text>
         <Text variant="caption">{lastOnline}</Text>
