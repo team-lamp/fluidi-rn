@@ -5,7 +5,7 @@ import LoginScreen from "./screens/LoginScreen";
 import { User } from "./types";
 import useStore from "./store";
 
-const serverUrl = "https://fast-yak-84.loca.lt";
+const serverUrl = "https://jolly-dog-94.loca.lt";
 
 const AppLoading = ({ children }: any) => {
   const setSocket = useStore((state) => state.setSocket);
