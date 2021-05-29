@@ -4,7 +4,8 @@ import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { Icon, View } from "native-base";
 import { colors } from "../constants/styleGuide";
 import KeyboardSpacer from "react-native-keyboard-spacer";
-import { Message } from "../types";
+import { Message, MessageToSend } from "../types";
+import useStore from "../store";
 
 const DATA: Message[] = [
   {
@@ -42,7 +43,7 @@ const DATA: Message[] = [
 ];
 
 const messageTemplate = {
-  id: Date.now(),
+  id: Date.now() + Math.random(), // in case two messages are sent at the same time
   username: "You",
   created_at: new Date().toDateString(),
   content: "",
@@ -54,6 +55,8 @@ const RoomScreen = ({ route, navigation }: any) => {
   const inputRef = useRef(null);
   const [messages, setMessages] = useState(DATA);
   const [newMessage, setNewMessage] = useState("");
+  const socket = useStore((state) => state.socket);
+  const user = useStore((state) => state.user);
   const showSendButton = Boolean(newMessage && newMessage.length);
 
   const handleSendMessage = () => {
@@ -62,6 +65,14 @@ const RoomScreen = ({ route, navigation }: any) => {
     setNewMessage("");
     // @ts-ignore
     inputRef.current.clear();
+
+    const msg: MessageToSend = {
+      room: "Test Room",
+      sender: user,
+      text: messageToSend.content,
+      timestamp: new Date(),
+    };
+    socket?.emit("chatMessage", msg);
   };
 
   const handlePhotoPress = () => {};

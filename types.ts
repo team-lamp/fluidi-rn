@@ -31,6 +31,13 @@ export type Message = {
   user_photo: string;
 };
 
+export type MessageToSend = {
+  text: string;
+  sender: User;
+  room: string;
+  timestamp: Date;
+};
+
 export type Room = {
   id: number;
   name: string;
