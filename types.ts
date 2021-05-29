@@ -20,6 +20,11 @@ export type HomeStackParamList = {
   RoomScreen: undefined;
 };
 
+export type BottomTabParamList = {
+  Rooms: undefined;
+  Contacts: undefined;
+};
+
 export type Message = {
   id: number;
   username: string;
