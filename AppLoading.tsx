@@ -5,19 +5,21 @@ import LoginScreen from "./screens/LoginScreen";
 import { User } from "./types";
 import useStore from "./store";
 
-const serverUrl = "https://jolly-dog-94.loca.lt";
+const serverUrl = "https://soft-penguin-41.loca.lt";
 
 const AppLoading = ({ children }: any) => {
   const setSocket = useStore((state) => state.setSocket);
   const setUser = useStore((state) => state.setUser);
   const setToken = useStore((state) => state.setToken);
   const setRooms = useStore((state) => state.setRooms);
-  const user = useStore((state) => state.user);
   const token = useStore((state) => state.token);
 
   useEffect(() => {
     // connect to the socket server
     const socket = io(serverUrl);
+    socket.on("connected", () => {
+      console.log("connected to servers");
+    });
     socket.on("user", (user: User) => {
       setUser(user);
     });
@@ -29,10 +31,6 @@ const AppLoading = ({ children }: any) => {
     });
     setSocket(socket);
   }, []);
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   if (!token) {
     return <LoginScreen />;
