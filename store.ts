@@ -6,7 +6,7 @@ import { configurePersist } from "zustand-persist";
 import { Room, User } from "./types";
 
 interface AppState {
-  user: null | User;
+  user: User;
   setUser: (user: User) => void;
   socket: null | Socket;
   setSocket: (socket: Socket) => void;
@@ -25,14 +25,20 @@ const useStore = createStore<AppState>(
   persist(
     {
       key: "auth", // required, child key of storage
-      allowlist: ["token", "rooms"], // optional, will save everything if allowlist is undefined
+      allowlist: ["token", "rooms", "user"], // optional, will save everything if allowlist is undefined
       denylist: [], // optional, if allowlist set, denylist will be ignored
     },
     (set) => ({
-      user: null,
+      user: {
+        displayName: "no user",
+        id: 0,
+        photo: "none",
+        username: "no_user",
+      },
       token: null,
       socket: null,
-      setUser: (user: User) => set(() => ({ user })),
+      setUser: (userData: User) =>
+        set((state) => ({ user: { ...state.user, id: userData.id } })),
       setSocket: (socket: Socket) => set(() => ({ socket })),
       setToken: (token: string) => set(() => ({ token })),
       rooms: [],
