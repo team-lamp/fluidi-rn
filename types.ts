@@ -11,7 +11,7 @@ export type RootStackParamList = {
 
 export type DrawerParamList = {
   Home: undefined;
-  HelpScreen: undefined;
+  Help: undefined;
 };
 
 export type HomeStackParamList = {

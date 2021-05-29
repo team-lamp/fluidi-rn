@@ -4,7 +4,8 @@ import { View, StyleSheet } from "react-native";
 import useStore from "../store";
 
 const HomeScreen = ({ navigation }: any) => {
-  const token = useStore(state => state.token);
+  const token = useStore((state) => state.token);
+
   return (
     <View style={styles.container}>
       <RoomList navigation={navigation} />

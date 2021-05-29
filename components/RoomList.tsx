@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   separator: {
-    height: 2,
+    height: 1,
     width: "100%",
     backgroundColor: colors.secondaryBackground,
   },

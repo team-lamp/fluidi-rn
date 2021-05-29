@@ -6,7 +6,7 @@ import {
 } from "react-native";
 import AvatarButton from "./themed/AvatarButton";
 import Text from "./themed/Text";
-import { Body, ListItem, View, Thumbnail } from "native-base";
+import { Body, ListItem, View, Thumbnail, Icon } from "native-base";
 import { colors } from "../constants/styleGuide";
 import { Room } from "../types";
 import moment from "moment";
@@ -59,10 +59,15 @@ const RoomListItem = ({ navigation, room }: RoomListItemProps) => {
           </Text>
         </View>
       )}
-      <View style={{ flexDirection: "column", paddingLeft: 10 }}>
+      <View style={{ flexDirection: "column", paddingLeft: 10, flex: 1 }}>
         <Text variant="header">{room.room_name}</Text>
         <Text variant="caption">{lastOnline}</Text>
       </View>
+      <Icon
+        type="Ionicons"
+        name="chevron-forward"
+        style={{ color: colors.secondaryText, fontSize: 22 }}
+      />
     </TouchableOpacity>
   );
 };
