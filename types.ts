@@ -30,7 +30,14 @@ export type Message = {
 
 export type Room = {
   id: number;
-  room_name: string;
-  room_photo: string | null;
+  name: string;
+  photo: string | null;
   lastOnline: object;
+};
+
+export type User = {
+  id: number;
+  username: string;
+  displayName: string;
+  photo: string;
 };

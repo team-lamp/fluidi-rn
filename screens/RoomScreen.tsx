@@ -1,11 +1,11 @@
 import React, { useState, useRef } from "react";
 import MessageList from "../components/MessageList";
-import Text from "../components/themed/Text";
 import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
   Keyboard,
+  Text,
 } from "react-native";
 import { Icon, View } from "native-base";
 import { colors } from "../constants/styleGuide";
@@ -145,6 +145,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     justifyContent: "space-between",
   },
+
 });
 
 export default RoomScreen;
