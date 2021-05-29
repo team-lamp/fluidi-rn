@@ -6,7 +6,7 @@ import {
 } from "react-native";
 import AvatarButton from "./themed/AvatarButton";
 import Text from "./themed/Text";
-import { Body, ListItem, View, Thumbnail } from "native-base";
+import { Body, ListItem, View, Thumbnail, Icon } from "native-base";
 import { colors } from "../constants/styleGuide";
 import { Room } from "../types";
 import moment from "moment";
@@ -18,12 +18,14 @@ interface RoomListItemProps extends TouchableOpacityProps {
 
 const RoomListItem = ({ navigation, room }: RoomListItemProps) => {
   const isOnline = moment(new Date()).diff(room.lastOnline) < 120000;
+  const lastOnline = moment(room.lastOnline).fromNow();
 
   const handlePress = () => {
     navigation.navigate("RoomScreen", {
       name: room.name,
       avatar: room.photo,
       lastOnline: room.lastOnline,
+      room_name: room.name,
     });
   };
 
@@ -59,6 +61,15 @@ const RoomListItem = ({ navigation, room }: RoomListItemProps) => {
         </View>
       )}
       <Text variant="header">{room.name}</Text>
+      <View style={{ flexDirection: "column", paddingLeft: 10, flex: 1 }}>
+        <Text variant="header">{room.name}</Text>
+        <Text variant="caption">{lastOnline}</Text>
+      </View>
+      <Icon
+        type="Ionicons"
+        name="chevron-forward"
+        style={{ color: colors.secondaryText, fontSize: 22 }}
+      />
     </TouchableOpacity>
   );
 };
@@ -67,7 +78,8 @@ const styles = StyleSheet.create({
   itemContainer: {
     backgroundColor: colors.background,
     width: "100%",
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -75,7 +87,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 60 / 2,
-    borderWidth: 3,
+    borderWidth: 2,
   },
   blankThumbnail: {
     backgroundColor: colors.secondaryBackground,

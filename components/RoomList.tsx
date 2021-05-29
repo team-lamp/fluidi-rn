@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { StyleSheet, FlatList, TouchableOpacity, Text } from "react-native";
+import { View } from "react-native";
 import { colors } from "../constants/styleGuide";
 import useStore from "../store";
 import { User, Room } from "../types";
@@ -37,6 +38,7 @@ const RoomList = ({ navigation }: any) => {
           <Text style={{ color: "black", fontSize: 54 }}>Create room</Text>
         </TouchableOpacity>
       }
+      ItemSeparatorComponent={() => <View style={styles.separator} />}
     />
   );
 };
@@ -48,6 +50,11 @@ const styles = StyleSheet.create({
   },
   addRoomButton: {
     backgroundColor: "white",
+  },
+  separator: {
+    height: 1,
+    width: "100%",
+    backgroundColor: colors.secondaryBackground,
   },
 });
 

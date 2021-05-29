@@ -8,7 +8,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 import { RootStackParamList } from "../types";
 import DrawerNavigator from "./DrawerNavigator";
-import { colors, headerStyle } from "../constants/styleGuide";
+import { colors } from "../constants/styleGuide";
 
 const navTheme = DefaultTheme;
 navTheme.colors.background = colors.background;
@@ -16,7 +16,6 @@ navTheme.colors.background = colors.background;
 import NotFoundScreen from "../screens/NotFoundScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
-
 
 export default function Navigation() {
   return (

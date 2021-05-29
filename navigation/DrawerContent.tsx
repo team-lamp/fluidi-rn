@@ -4,8 +4,9 @@ import {
   DrawerItemList,
   DrawerContentScrollView,
 } from "@react-navigation/drawer";
-import { View, Thumbnail } from "native-base";
-import { StyleSheet } from "react-native";
+import { DrawerActions } from "@react-navigation/native";
+import { View, Thumbnail, Icon, Button } from "native-base";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import Text from "../components/themed/Text";
 import { colors } from "../constants/styleGuide";
 
@@ -15,29 +16,77 @@ const user = {
   username: "Chancey-Poo",
 };
 
-const DrawerContent = ({ navigation, ...rest }: any) => {
-  const handleNavigationPress = (destination: string) => {
-    navigation.navigate(destination);
-  };
+const DrawerContent = ({ ...props }: any) => {
+  const { navigation } = props;
+  const toggleDrawer = () => navigation.dispatch(DrawerActions.toggleDrawer());
 
   return (
-    <DrawerContentScrollView {...rest}>
+    <DrawerContentScrollView {...props}>
       <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <Thumbnail large source={{ uri: user.photo }} />
-          <Text variant="header">{user.username}</Text>
+        <View
+          style={{ width: "100%", alignItems: "flex-end", paddingRight: 10 }}
+        >
+          <TouchableOpacity onPress={toggleDrawer}>
+            <Icon
+              type="Ionicons"
+              name="close-outline"
+              style={{ color: colors.contrastText }}
+            />
+          </TouchableOpacity>
         </View>
-        {/* <DrawerItemList {...rest} /> */}
-        <DrawerItem
-          label="Home"
+        <View style={styles.headerContainer}>
+          <Thumbnail
+            large
+            source={{ uri: user.photo }}
+            style={{
+              borderColor: colors.actions.play,
+              borderWidth: 2,
+              marginBottom: 10,
+            }}
+          />
+          <Text variant="title">{user.username}</Text>
+          <Text variant="body" style={{ fontWeight: "100" }}>
+            Welcome back.
+          </Text>
+        </View>
+        <DrawerItemList {...props} />
+
+        {/* <DrawerItem
+          label="Account"
           labelStyle={styles.label}
-          onPress={() => handleNavigationPress("HomeScreen")}
+          onPress={() => handleNavigationPress("Account")}
+          icon={() => (
+            <Icon
+              type="Ionicons"
+              name="person-outline"
+              style={{ color: colors.contrastText }}
+            />
+          )}
+        />
+        <DrawerItem
+          label="Privacy"
+          labelStyle={styles.label}
+          onPress={() => handleNavigationPress("PrivacyScreen")}
+          icon={() => (
+            <Icon
+              type="SimpleLineIcons"
+              name="lock"
+              style={{ color: colors.contrastText }}
+            />
+          )}
         />
         <DrawerItem
           label="Help"
           labelStyle={styles.label}
           onPress={() => handleNavigationPress("HelpScreen")}
-        />
+          icon={() => (
+            <Icon
+              type="Ionicons"
+              name="help-circle-outline"
+              style={{ color: colors.contrastText }}
+            />
+          )}
+        /> */}
       </View>
     </DrawerContentScrollView>
   );
@@ -50,11 +99,16 @@ const styles = StyleSheet.create({
   headerContainer: {
     width: "100%",
     padding: 10,
-    alignItems: "center",
+    paddingBottom: 25,
+    marginBottom: 20,
+    alignItems: "flex-start",
     justifyContent: "center",
+    borderBottomColor: colors.lowOpacity.grey,
+    borderBottomWidth: 1,
   },
   label: {
     color: colors.contrastText,
+    fontSize: 18,
   },
 });
 

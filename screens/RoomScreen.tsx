@@ -81,30 +81,36 @@ const RoomScreen = ({ route, navigation }: any) => {
   return (
     <View style={styles.container}>
       <MessageList messages={messages} />
-      <TextInput
-        ref={inputRef}
-        multiline
-        style={styles.textInput}
-        onChangeText={(text) => setNewMessage(text)}
-      />
+      <View style={{ paddingHorizontal: 20 }}>
+        <TextInput
+          ref={inputRef}
+          multiline
+          placeholder="Type a message"
+          placeholderTextColor={colors.secondaryText}
+          style={styles.textInput}
+          onChangeText={(text) => setNewMessage(text)}
+        />
+      </View>
       <View style={[styles.iconContainer, { paddingBottom: padding }]}>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: "row", marginLeft: 10 }}>
           <TouchableOpacity onPress={handlePhotoPress}>
             <Icon
-              type="FontAwesome"
-              name="photo"
+              type="SimpleLineIcons"
+              name="picture"
               style={{
-                color: colors.secondaryText,
+                color: colors.lowOpacity.white,
+                fontSize: 25,
                 marginRight: 20,
               }}
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={handleCameraPress}>
             <Icon
-              type="FontAwesome"
-              name="camera-retro"
+              type="SimpleLineIcons"
+              name="camera"
               style={{
-                color: colors.secondaryText,
+                color: colors.lowOpacity.white,
+                fontSize: 25,
               }}
             />
           </TouchableOpacity>
@@ -112,8 +118,8 @@ const RoomScreen = ({ route, navigation }: any) => {
         {showSendButton && (
           <TouchableOpacity onPress={handleSendMessage}>
             <Icon
-              type="Feather"
-              name="send"
+              type="SimpleLineIcons"
+              name="paper-plane"
               style={{
                 color: colors.brand,
               }}
@@ -132,17 +138,19 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   textInput: {
-    backgroundColor: colors.secondaryBackground,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: colors.lowOpacity.grey,
     color: colors.contrastText,
-    paddingHorizontal: 10,
-    paddingVertical: 15,
+    padding: 10,
     fontSize: 20,
+    minHeight: 40,
     maxHeight: 200,
   },
   iconContainer: {
     flexDirection: "row",
     paddingTop: 10,
-    paddingHorizontal: 20,
+    paddingHorizontal: 25,
     justifyContent: "space-between",
   },
 
