@@ -12,7 +12,7 @@ const AppLoading = ({ children }: any) => {
   const setUser = useStore((state) => state.setUser);
   const setToken = useStore((state) => state.setToken);
   const setRooms = useStore((state) => state.setRooms);
-
+  const user = useStore((state) => state.user);
   const token = useStore((state) => state.token);
 
   useEffect(() => {
@@ -29,6 +29,10 @@ const AppLoading = ({ children }: any) => {
     });
     setSocket(socket);
   }, []);
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
   if (!token) {
     return <LoginScreen />;
