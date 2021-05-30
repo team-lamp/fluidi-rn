@@ -24,20 +24,20 @@ const RoomList = ({ navigation }: any) => {
       )}
       keyExtractor={(item) => String(item.id)}
       style={styles.list}
-      ListFooterComponent={
-        <TouchableOpacity
-          style={styles.addRoomButton}
-          onPress={() => {
-            socket?.emit("createRoom", {
-              name: "Test Room",
-              photo: "",
-            });
-            console.log("room created!");
-          }}
-        >
-          <Text style={{ color: "black", fontSize: 54 }}>Create room</Text>
-        </TouchableOpacity>
-      }
+      //   ListFooterComponent={
+      //     <TouchableOpacity
+      //       style={styles.addRoomButton}
+      //       onPress={() => {
+      //         socket?.emit("createRoom", {
+      //           name: "Test Room",
+      //           photo: "",
+      //         });
+      //         console.log("room created!");
+      //       }}
+      //     >
+      //       <Text style={{ color: "black", fontSize: 54 }}>Create room</Text>
+      //     </TouchableOpacity>
+      //   }
       ItemSeparatorComponent={() => <View style={styles.separator} />}
     />
   );
