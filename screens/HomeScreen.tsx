@@ -128,7 +128,7 @@ const HomeScreen = ({ navigation }: any) => {
       <BottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
         <BottomSheetSectionList
           sections={contactData}
-          keyExtractor={(i) => i}
+          keyExtractor={(i) => String(i.id)}
           renderSectionHeader={({ section }) => (
             <SectionHeader section={section} />
           )}
