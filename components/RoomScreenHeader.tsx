@@ -23,12 +23,21 @@ const RoomScreenHeader = () => {
       {/* @ts-ignore */}
       {route.params.avatar ? (
         <TouchableOpacity onPress={handleAvatarPress}>
+          <Thumbnail
           {/* @ts-ignore */}
-          <Thumbnail source={{ uri: route.params.avatar }} small />
+            source={{ uri: route.params.avatar }}
+            small
+            style={{ borderWidth: 1, borderColor: colors.lowOpacity.brand }}
+          />
         </TouchableOpacity>
       ) : (
         <TouchableOpacity onPress={handleAvatarPress}>
-          <View style={styles.blankAvatar}>
+          <View
+            style={[
+              styles.blankAvatar,
+              { borderWidth: 1, borderColor: colors.lowOpacity.brand },
+            ]}
+          >
             <Text variant="caption" style={{ color: colors.contrastText }}>
               {/* @ts-ignore */}
               {route.params.room_name[0]}

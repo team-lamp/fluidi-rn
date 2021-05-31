@@ -55,29 +55,9 @@ const RoomListItem = ({ navigation, room }: RoomListItemProps) => {
   return (
     <TouchableOpacity onPress={handlePress} style={styles.itemContainer}>
       {room.photo ? (
-        <Thumbnail
-          source={{ uri: room.photo }}
-          style={[
-            styles.avatar,
-            {
-              borderColor: isOnline
-                ? colors.actions.play
-                : colors.secondaryText,
-            },
-          ]}
-        />
+        <Thumbnail source={{ uri: room.photo }} style={styles.avatar} />
       ) : (
-        <View
-          style={[
-            styles.blankThumbnail,
-            styles.avatar,
-            {
-              borderColor: isOnline
-                ? colors.actions.play
-                : colors.secondaryText,
-            },
-          ]}
-        >
+        <View style={[styles.blankThumbnail, styles.avatar]}>
           <Text variant="body" style={styles.blankThumbnailText}>
             {room.name[0]}
           </Text>
@@ -85,12 +65,13 @@ const RoomListItem = ({ navigation, room }: RoomListItemProps) => {
       )}
       <View style={{ flexDirection: "column", paddingLeft: 10, flex: 1 }}>
         <Text variant="header">{room.name}</Text>
-        <Text variant="caption">{lastOnline}</Text>
+        <Text variant="caption">Yeah, that's what you said...</Text>
       </View>
+      <Text variant="body">Sun</Text>
       <Icon
         type="Ionicons"
         name="chevron-forward"
-        style={{ color: colors.secondaryText, fontSize: 22 }}
+        style={{ color: colors.lowOpacity.white, fontSize: 22, marginLeft: 10 }}
       />
     </TouchableOpacity>
   );
@@ -109,7 +90,8 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 60 / 2,
-    borderWidth: 2,
+    borderWidth: 1,
+    borderColor: colors.lowOpacity.brand,
   },
   blankThumbnail: {
     backgroundColor: colors.secondaryBackground,

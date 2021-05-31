@@ -1,22 +1,22 @@
 import { ViewStyle } from "react-native";
 
 const colors = {
-  brand: "#3169F4",
-  brandDark: "#121C34",
-  background: "#000000",
-  secondaryBackground: "#1F1E1E",
+  brand: "#03A9F1",
+  brandDark: "#007AAF",
+  background: "#292F3F",
+  secondaryBackground: "#1B1E27",
   contrastText: "#ffffff",
-  secondaryText: "#6C6C6C",
-  dim: "#444444",
+  secondaryText: "#CFCFCF",
+  dim: "#454B5A",
   lowOpacity: {
     grey: "rgba(151, 151, 151, 0.2)",
     dark: "rgba(100, 100, 100, 0.2)",
-    brand: "rgba(49, 105, 244, 0.2)",
+    brand: "rgba(3, 169, 241, 0.5)",
     white: "rgba(255, 255, 255, 0.5)",
   },
   actions: {
-    stop: "#CA5562",
-    play: "#79B431",
+    stop: "#F18303",
+    play: "#00AC83",
     record: "#C51A2D",
   },
 };

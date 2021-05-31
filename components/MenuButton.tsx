@@ -8,11 +8,11 @@ const MenuButton = () => {
   const navigation = useNavigation();
   const toggleDrawer = () => navigation.dispatch(DrawerActions.toggleDrawer());
   return (
-    <Pressable hitSlop={10} onPress={toggleDrawer}>
+    <Pressable hitSlop={10} onPress={toggleDrawer} style={{ marginLeft: 15 }}>
       <Icon
         type="Ionicons"
         name="menu-outline"
-        style={{ color: colors.contrastText }}
+        style={{ color: colors.brand, fontSize: 32 }}
       />
     </Pressable>
   );
