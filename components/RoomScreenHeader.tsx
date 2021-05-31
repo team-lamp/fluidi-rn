@@ -24,7 +24,7 @@ const RoomScreenHeader = () => {
       {route.params.avatar ? (
         <TouchableOpacity onPress={handleAvatarPress}>
           <Thumbnail
-          {/* @ts-ignore */}
+            // @ts-ignore
             source={{ uri: route.params.avatar }}
             small
             style={{ borderWidth: 1, borderColor: colors.lowOpacity.brand }}
