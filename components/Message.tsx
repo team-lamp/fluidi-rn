@@ -32,23 +32,19 @@ const Message = ({ message, showDetails, isOwnMessage }: MessageProps) => {
         </View>
       );
     }
-    if (message.user_photo) {
-      return (
-        <Thumbnail
-          source={{ uri: message.user_photo }}
-          style={{
-            height: 30,
-            width: 30,
-            borderWidth: 2,
-            borderColor: isOwnMessage
-              ? colors.brand
-              : colors.secondaryBackground,
-            position: "absolute",
-            top: 0,
-          }}
-        />
-      );
-    }
+    return (
+      <Thumbnail
+        source={{ uri: message.user_photo }}
+        style={{
+          height: 30,
+          width: 30,
+          borderWidth: 2,
+          borderColor: isOwnMessage ? colors.brand : colors.secondaryBackground,
+          position: "absolute",
+          top: 0,
+        }}
+      />
+    );
   };
 
   return (
