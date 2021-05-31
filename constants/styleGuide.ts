@@ -5,6 +5,7 @@ const colors = {
   brandDark: "#176A8E",
   background: "#292F3F",
   secondaryBackground: "#1B1E27",
+  backgroundDark: "#1F232F",
   contrastText: "#ffffff",
   secondaryText: "#808080",
   dim: "#454B5A",
