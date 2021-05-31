@@ -1,4 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
+import axios from "axios";
 import React, { useState } from "react";
 import {
   View,
@@ -9,6 +10,7 @@ import {
   Dimensions,
   KeyboardAvoidingView,
 } from "react-native";
+import { API_URL } from "../constants/secrets";
 
 import useStore from "../store";
 
@@ -36,9 +38,9 @@ export default function Register() {
           value={password}
         />
         <TouchableOpacity
-          style={styles.loginButton}
+          style={styles.registerButton}
           onPress={() => {
-            socket?.emit("register", { username, password });
+            register(username, password);
           }}
         >
           <Text>Register</Text>
@@ -56,7 +58,14 @@ export default function Register() {
   );
 
   async function register(username: string, password: string) {
-    socket?.emit("register", { username, password });
+    axios
+      .post(`${API_URL}/auth/register`, { username, password })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 }
 
@@ -86,7 +95,7 @@ const styles = StyleSheet.create({
     height: 30,
     borderBottomWidth: 1,
   },
-  loginButton: {
+  registerButton: {
     borderWidth: 1,
     borderRadius: 7.5,
     padding: 10,

@@ -10,13 +10,34 @@ import {
   Dimensions,
   KeyboardAvoidingView,
 } from "react-native";
+import axios from "axios";
+import { API_URL } from "../constants/secrets";
 import useStore from "../store";
+
+function login(
+  username: string,
+  password: string,
+  setToken: Function,
+  setUser: Function
+) {
+  axios
+    .post(`${API_URL}/auth/login`, { username, password })
+    .then((res) => {
+      console.log(res.data);
+      setToken(res.data.token);
+      setUser(res.data.user);
+    })
+    .catch(console.error);
+}
 
 export default function Login() {
   const [username, setUsername] = useState("chance");
   const [password, setPassword] = useState("password");
   const navigation = useNavigation();
-  const socket = useStore((state) => state.socket);
+  const token = useStore((state) => state.token);
+  const setUser = useStore((state) => state.setUser);
+  const setToken = useStore((state) => state.setToken);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Fluidi</Text>
@@ -37,7 +58,8 @@ export default function Login() {
         <TouchableOpacity
           style={styles.loginButton}
           onPress={() => {
-            socket?.emit("login", { username, password });
+            console.log(token);
+            login(username, password, setToken, setUser);
           }}
         >
           <Text>Login</Text>

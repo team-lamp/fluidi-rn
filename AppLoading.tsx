@@ -5,7 +5,7 @@ import LoginScreen from "./screens/LoginScreen";
 import { User } from "./types";
 import useStore from "./store";
 
-const serverUrl = "https://230543e120ba.ngrok.io";
+import { API_URL } from "./constants/secrets";
 
 const AppLoading = ({ children }: any) => {
   const setSocket = useStore((state) => state.setSocket);
@@ -13,44 +13,58 @@ const AppLoading = ({ children }: any) => {
   const setToken = useStore((state) => state.setToken);
   const setRooms = useStore((state) => state.setRooms);
   const token = useStore((state) => state.token);
+  // const token = "asdf";
   const user = useStore((state) => state.user);
+
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     // connect to the socket server
-    const socket = io(serverUrl);
+    console.log(token);
+    const socket = io(API_URL, {
+      auth: {
+        token: token,
+      },
+    });
+
     socket.on("connect", () => {
-      console.log("connected to server");
+      console.log("connected to the server");
       setSocket(socket);
-
-      if (user) {
-        socket.emit("userId", user.id);
-      }
+      setLoggedIn(true);
     });
 
-    socket.on("user", (user: User) => {
-      console.log("user data recieved", user);
-      setUser(user);
+    socket.on("invalid token", () => {
+      //
+      console.log("token was invalid");
     });
-
-    socket.on("token", (_token: string) => {
-      console.log("token received", _token);
-      setToken(_token);
-    });
-
-    socket.on("rooms", (rooms) => {
-      setRooms(rooms);
-    });
-
-    socket.on("userAddedToRoom", (roomName: string) => {
-      socket.emit("joinRoom", { roomName, token });
-    });
+    // socket.on("connect", () => {
+    //   console.log("connected to server");
+    //   setSocket(socket);
+    //   if (user) {
+    //     socket.emit("userId", user.id);
+    //   }
+    // });
+    // socket.on("user", (user: User) => {
+    //   console.log("user data recieved", user);
+    //   setUser(user);
+    // });
+    // socket.on("token", (_token: string) => {
+    //   console.log("token received", _token);
+    //   setToken(_token);
+    // });
+    // socket.on("rooms", (rooms) => {
+    //   setRooms(rooms);
+    // });
+    // socket.on("userAddedToRoom", (roomName: string) => {
+    //   socket.emit("joinRoom", { roomName, token });
+    // });
   }, []);
 
-  if (!token) {
+  if (!loggedIn) {
     return <LoginScreen />;
   }
 
-  if (token) return children;
+  if (loggedIn) return children;
 };
 
 export default AppLoading;
