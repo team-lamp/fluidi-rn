@@ -10,7 +10,18 @@ import {
   Dimensions,
   KeyboardAvoidingView,
 } from "react-native";
+import axios from "axios";
+import { API_URL } from "../constants/secrets";
 import useStore from "../store";
+
+function login(username: string, password: string) {
+  axios
+    .post(`${API_URL}/login`, { username, password })
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch(console.error);
+}
 
 export default function Login() {
   const [username, setUsername] = useState("chance");
@@ -37,7 +48,7 @@ export default function Login() {
         <TouchableOpacity
           style={styles.loginButton}
           onPress={() => {
-            socket?.emit("login", { username, password });
+            login(username, password);
           }}
         >
           <Text>Login</Text>

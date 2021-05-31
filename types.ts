@@ -46,8 +46,8 @@ export type Room = {
 };
 
 export type User = {
-  id: number;
-  username: string;
-  displayName: string;
-  photo: string;
+  id?: number;
+  username?: string;
+  displayName?: string;
+  photo?: string;
 };
