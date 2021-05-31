@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Text from "./themed/Text";
 import { StyleSheet } from "react-native";
 import { View, Thumbnail } from "native-base";
@@ -12,6 +12,39 @@ interface MessageProps {
 }
 
 const Message = ({ message, showDetails, isOwnMessage }: MessageProps) => {
+  console.log(message.user_photo);
+
+  const avatar = useCallback(() => {
+    if (!message.user_photo) {
+      return (
+        <View
+          style={{
+            height: 26,
+            width: 26,
+            borderRadius: 26 / 2,
+            borderWidth: 1,
+            borderColor: colors.lowOpacity.brand,
+          }}
+        >
+          <Text variant="caption">{message.username[0]}</Text>
+        </View>
+      );
+    }
+    if (message.user_photo) {
+      return (
+        <Thumbnail
+          source={{ uri: message.user_photo }}
+          style={{
+            height: 26,
+            width: 26,
+            borderWidth: 1,
+            borderColor: colors.lowOpacity.brand,
+          }}
+        />
+      );
+    }
+  }, []);
+
   return (
     <View
       style={[

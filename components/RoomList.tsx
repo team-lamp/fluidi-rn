@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     width: "100%",
-    backgroundColor: colors.secondaryBackground,
+    backgroundColor: colors.dim,
   },
 });
 
