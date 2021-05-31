@@ -164,8 +164,8 @@ const HomeScreen = ({ navigation }: any) => {
           styles.bottomIconContainer,
           {
             paddingBottom: insets.bottom,
-            paddingLeft: insets.left,
-            paddingRight: insets.right + 15,
+            paddingLeft: insets.left + 20,
+            paddingRight: insets.right + 20,
           },
         ]}
       >
@@ -173,8 +173,16 @@ const HomeScreen = ({ navigation }: any) => {
           onPress={handleOpen}
           style={{
             backgroundColor: colors.brandDark,
-            padding: 8,
-            borderRadius: 8,
+            height: 48,
+            width: 48,
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 5,
+            borderRadius: 48 / 2,
+            shadowColor: colors.secondaryBackground,
+            shadowRadius: 3,
+            shadowOpacity: 0.4,
+            elevation: 2,
           }}
         >
           <Icon

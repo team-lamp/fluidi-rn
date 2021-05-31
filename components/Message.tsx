@@ -12,18 +12,20 @@ interface MessageProps {
 }
 
 const Message = ({ message, showDetails, isOwnMessage }: MessageProps) => {
-  console.log(message.user_photo);
-
-  const avatar = useCallback(() => {
+  const Avatar = () => {
     if (!message.user_photo) {
       return (
         <View
           style={{
-            height: 26,
-            width: 26,
-            borderRadius: 26 / 2,
-            borderWidth: 1,
-            borderColor: colors.lowOpacity.brand,
+            height: 30,
+            width: 30,
+            borderRadius: 30 / 2,
+            borderWidth: 2,
+            borderColor: isOwnMessage
+              ? colors.brand
+              : colors.secondaryBackground,
+            position: "absolute",
+            top: 0,
           }}
         >
           <Text variant="caption">{message.username[0]}</Text>
@@ -35,15 +37,19 @@ const Message = ({ message, showDetails, isOwnMessage }: MessageProps) => {
         <Thumbnail
           source={{ uri: message.user_photo }}
           style={{
-            height: 26,
-            width: 26,
-            borderWidth: 1,
-            borderColor: colors.lowOpacity.brand,
+            height: 30,
+            width: 30,
+            borderWidth: 2,
+            borderColor: isOwnMessage
+              ? colors.brand
+              : colors.secondaryBackground,
+            position: "absolute",
+            top: 0,
           }}
         />
       );
     }
-  }, []);
+  };
 
   return (
     <View
@@ -59,11 +65,14 @@ const Message = ({ message, showDetails, isOwnMessage }: MessageProps) => {
             backgroundColor: isOwnMessage
               ? colors.brand
               : colors.secondaryBackground,
+            paddingLeft: isOwnMessage ? 10 : 25,
+            paddingRight: isOwnMessage ? 25 : 10,
           },
         ]}
       >
         <Text variant="body">{message.content}</Text>
       </View>
+      <Avatar />
     </View>
   );
 };
@@ -72,12 +81,12 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingVertical: 10,
   },
   contentContainer: {
     maxWidth: "75%",
-    paddingVertical: 10,
-    paddingHorizontal: 15,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
     alignItems: "center",
     borderRadius: 15,
   },
