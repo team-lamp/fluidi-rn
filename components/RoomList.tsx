@@ -10,6 +10,7 @@ const RoomList = ({ navigation }: any) => {
   const user: null | User = useStore((state) => state.user);
   const rooms: Room[] = useStore((state) => state.rooms);
   const socket = useStore((state) => state.socket);
+  const token = useStore((state) => state.token);
 
   useEffect(() => {
     console.log(user);
@@ -24,6 +25,21 @@ const RoomList = ({ navigation }: any) => {
       )}
       keyExtractor={(item) => String(item.id)}
       style={styles.list}
+      ListFooterComponent={
+        <TouchableOpacity
+          style={styles.addRoomButton}
+          onPress={() => {
+            socket?.emit("createRoom", {
+              name: "Test Room",
+              photo: "",
+            });
+
+            console.log("room created!");
+          }}
+        >
+          <Text style={{ color: "black", fontSize: 54 }}>Create room</Text>
+        </TouchableOpacity>
+      }
       //   ListFooterComponent={
       //     <TouchableOpacity
       //       style={styles.addRoomButton}

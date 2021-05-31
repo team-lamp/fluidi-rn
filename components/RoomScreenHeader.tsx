@@ -10,6 +10,7 @@ const RoomScreenHeader = () => {
   const navigation = useNavigation();
 
   const handleAvatarPress = () => {
+    // @ts-ignore
     if (route.params.isGroup) {
       navigation.navigate("TalkScreen", route.params);
     } else {
@@ -19,9 +20,11 @@ const RoomScreenHeader = () => {
 
   return (
     <View style={styles.header}>
+      {/* @ts-ignore */}
       {route.params.avatar ? (
         <TouchableOpacity onPress={handleAvatarPress}>
           <Thumbnail
+          {/* @ts-ignore */}
             source={{ uri: route.params.avatar }}
             small
             style={{ borderWidth: 1, borderColor: colors.lowOpacity.brand }}
@@ -36,12 +39,14 @@ const RoomScreenHeader = () => {
             ]}
           >
             <Text variant="caption" style={{ color: colors.contrastText }}>
+              {/* @ts-ignore */}
               {route.params.room_name[0]}
             </Text>
           </View>
         </TouchableOpacity>
       )}
       <Text variant="title" style={{ marginLeft: 10 }}>
+        {/* @ts-ignore */}
         {route.params.room_name}
       </Text>
     </View>
