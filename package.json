@@ -42,6 +42,7 @@
     "react-native-typing-animation": "^0.1.7",
     "react-native-web": "~0.13.12",
     "socket.io-client": "^4.1.2",
+    "uuid": "^8.3.2",
     "zustand": "^3.5.1",
     "zustand-persist": "^0.3.1"
   },

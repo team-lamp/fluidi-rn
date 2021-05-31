@@ -10,6 +10,7 @@ import { Body, ListItem, View, Thumbnail, Icon } from "native-base";
 import { colors } from "../constants/styleGuide";
 import { Room } from "../types";
 import moment from "moment";
+import useStore from "../store";
 
 const members = [
   {
@@ -32,6 +33,8 @@ interface RoomListItemProps extends TouchableOpacityProps {
 }
 
 const RoomListItem = ({ navigation, room }: RoomListItemProps) => {
+  const socket = useStore((state) => state.socket);
+  const token = useStore((state) => state.token);
   const isOnline = moment(new Date()).diff(room.lastOnline) < 120000;
   const lastOnline = moment(room.lastOnline).fromNow();
   const isGroup = true;

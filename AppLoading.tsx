@@ -5,7 +5,7 @@ import LoginScreen from "./screens/LoginScreen";
 import { User } from "./types";
 import useStore from "./store";
 
-const serverUrl = "https://soft-penguin-41.loca.lt";
+const serverUrl = "https://230543e120ba.ngrok.io";
 
 const AppLoading = ({ children }: any) => {
   const setSocket = useStore((state) => state.setSocket);
@@ -28,16 +28,21 @@ const AppLoading = ({ children }: any) => {
     });
 
     socket.on("user", (user: User) => {
+      console.log("user data recieved", user);
       setUser(user);
     });
 
-    socket.on("token", (token: string) => {
-      console.log("token received", token);
-      setToken(token);
+    socket.on("token", (_token: string) => {
+      console.log("token received", _token);
+      setToken(_token);
     });
 
     socket.on("rooms", (rooms) => {
       setRooms(rooms);
+    });
+
+    socket.on("userAddedToRoom", (roomName: string) => {
+      socket.emit("joinRoom", { roomName, token });
     });
   }, []);
 

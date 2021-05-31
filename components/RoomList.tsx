@@ -10,6 +10,7 @@ const RoomList = ({ navigation }: any) => {
   const user: null | User = useStore((state) => state.user);
   const rooms: Room[] = useStore((state) => state.rooms);
   const socket = useStore((state) => state.socket);
+  const token = useStore((state) => state.token);
 
   useEffect(() => {
     console.log(user);
@@ -32,6 +33,7 @@ const RoomList = ({ navigation }: any) => {
               name: "Test Room",
               photo: "",
             });
+
             console.log("room created!");
           }}
         >
