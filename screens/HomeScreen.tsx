@@ -14,19 +14,8 @@ interface SectionHeaderProps {
 
 const SectionHeader = ({ section }: SectionHeaderProps) => {
   return (
-    <View style={{ marginVertical: 20 }}>
-      <View
-        style={{
-          height: 36,
-          width: 36,
-          borderRadius: 36 / 2,
-          backgroundColor: colors.brand,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Text variant="body">{section.title}</Text>
-      </View>
+    <View style={{ marginTop: 25, marginBottom: 10, marginLeft: 20 }}>
+      <Text variant="header">{section.title}</Text>
     </View>
   );
 };
@@ -40,11 +29,18 @@ const ContactItem = ({ item }: ContactItemProps) => {
   const hasAvatar = item.avatar ? true : false;
 
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+      style={{
+        backgroundColor: colors.lowOpacity.grey,
+        borderRadius: 15,
+        marginLeft: 55,
+        marginRight: 20,
+        marginVertical: 5,
+        padding: 10,
+      }}
+    >
       <View
         style={{
-          marginLeft: 40,
-          marginVertical: 10,
           flexDirection: "row",
           alignItems: "center",
         }}
@@ -65,7 +61,9 @@ const ContactItem = ({ item }: ContactItemProps) => {
             <Text variant="body">{item.firstName[0]}</Text>
           </View>
         )}
-        <Text variant="body">{name}</Text>
+        <Text variant="body" style={{ marginLeft: 10 }}>
+          {name}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -164,19 +162,12 @@ const HomeScreen = ({ navigation }: any) => {
           styles.bottomIconContainer,
           {
             paddingBottom: insets.bottom,
-            paddingLeft: insets.left,
-            paddingRight: insets.right + 15,
+            paddingLeft: insets.left + 20,
+            paddingRight: insets.right + 20,
           },
         ]}
       >
-        <TouchableOpacity
-          onPress={handleOpen}
-          style={{
-            backgroundColor: colors.brandDark,
-            padding: 8,
-            borderRadius: 8,
-          }}
-        >
+        <TouchableOpacity onPress={handleOpen} style={styles.createNewButton}>
           <Icon
             type="Ionicons"
             name="md-create-outline"
@@ -185,14 +176,48 @@ const HomeScreen = ({ navigation }: any) => {
         </TouchableOpacity>
       </View>
       <BottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
-        <View style={{ backgroundColor: colors.background }}>
-          <TouchableOpacity style={{ flexDirection: "row" }}>
+        <View
+          style={{
+            backgroundColor: colors.backgroundDark,
+            paddingVertical: 20,
+            alignItems: "center",
+            shadowOpacity: 0.5,
+            shadowColor: "#000",
+            shadowRadius: 4,
+            elevation: 2,
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginVertical: 10,
+            }}
+          >
             <Icon
-              type="Ionicons"
-              name="person-add-outline"
+              type="MaterialIcons"
+              name="person-add"
               style={{ color: colors.contrastText }}
             />
-            <Text variant="body">Add new Contact</Text>
+            <Text variant="body" style={{ marginLeft: 10 }}>
+              Add new Contact
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginVertical: 10,
+            }}
+          >
+            <Icon
+              type="MaterialIcons"
+              name="group"
+              style={{ color: colors.contrastText }}
+            />
+            <Text variant="body" style={{ marginLeft: 10 }}>
+              Create new Group
+            </Text>
           </TouchableOpacity>
         </View>
         <BottomSheetSectionList
@@ -217,6 +242,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     justifyContent: "flex-end",
+  },
+  createNewButton: {
+    backgroundColor: colors.brandDark,
+    height: 48,
+    width: 48,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 5,
+    borderRadius: 48 / 2,
+    shadowColor: colors.secondaryBackground,
+    shadowRadius: 3,
+    shadowOpacity: 0.4,
+    elevation: 2,
   },
 });
 

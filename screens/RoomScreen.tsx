@@ -6,6 +6,7 @@ import { colors } from "../constants/styleGuide";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import { Message, MessageToSend } from "../types";
 import useStore from "../store";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const DATA: Message[] = [
   {
@@ -52,9 +53,11 @@ const messageTemplate = {
 };
 
 const RoomScreen = ({ route, navigation }: any) => {
-  const inputRef = useRef(null);
+  const insets = useSafeAreaInsets();
+  const inputRef = useRef<TextInput>(null);
   const [messages, setMessages] = useState(DATA);
   const [newMessage, setNewMessage] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
   const socket = useStore((state) => state.socket);
   const user = useStore((state) => state.user);
   const showSendButton = Boolean(newMessage && newMessage.length);
@@ -63,8 +66,7 @@ const RoomScreen = ({ route, navigation }: any) => {
     const messageToSend = { ...messageTemplate, content: newMessage };
     setMessages([messageToSend, ...messages]);
     setNewMessage("");
-    // @ts-ignore
-    inputRef.current.clear();
+    inputRef?.current.clear();
 
     const msg: MessageToSend = {
       room: "Test Room",
@@ -80,28 +82,45 @@ const RoomScreen = ({ route, navigation }: any) => {
   const handleCameraPress = () => {};
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
+          paddingBottom: isFocused ? 5 : insets.bottom,
+        },
+      ]}
+    >
       <MessageList messages={messages} />
       <View style={{ paddingHorizontal: 20 }}>
         <TextInput
           ref={inputRef}
           multiline
           placeholder="Type a message"
-          placeholderTextColor={colors.secondaryText}
+          placeholderTextColor={colors.lowOpacity.white}
           style={styles.textInput}
           onChangeText={(text) => setNewMessage(text)}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
         />
       </View>
       <View style={styles.iconContainer}>
         <View style={styles.leftIconContainer}>
-          <TouchableOpacity onPress={handlePhotoPress}>
+          <TouchableOpacity
+            onPress={handlePhotoPress}
+            style={styles.iconButton}
+          >
             <Icon
               type="SimpleLineIcons"
               name="picture"
-              style={[{ marginRight: 20 }, styles.leftIcons]}
+              style={styles.leftIcons}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleCameraPress}>
+          <TouchableOpacity
+            onPress={handleCameraPress}
+            style={styles.iconButton}
+          >
             <Icon
               type="SimpleLineIcons"
               name="camera"
@@ -130,18 +149,18 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   textInput: {
+    backgroundColor: colors.secondaryBackground,
     borderRadius: 15,
-    borderWidth: 1,
-    borderColor: colors.lowOpacity.grey,
     color: colors.contrastText,
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
     fontSize: 20,
     minHeight: 40,
     maxHeight: 200,
   },
   iconContainer: {
     flexDirection: "row",
-    paddingVertical: 10,
+    paddingTop: 10,
     paddingHorizontal: 25,
     justifyContent: "space-between",
   },
@@ -149,8 +168,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginLeft: 10,
   },
+  iconButton: {
+    backgroundColor: colors.brandDark,
+    height: 40,
+    width: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 40 / 2,
+    marginRight: 10,
+  },
   leftIcons: {
-    color: colors.lowOpacity.white,
+    color: colors.contrastText,
     fontSize: 25,
   },
 });
