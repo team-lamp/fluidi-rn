@@ -66,7 +66,7 @@ const RoomScreen = ({ route, navigation }: any) => {
     const messageToSend = { ...messageTemplate, content: newMessage };
     setMessages([messageToSend, ...messages]);
     setNewMessage("");
-    inputRef?.current.clear();
+    inputRef.current?.clear();
 
     const msg: MessageToSend = {
       room: "Test Room",
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     width: 40,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 40 / 2,
+    borderRadius: 8,
     marginRight: 10,
   },
   leftIcons: {
