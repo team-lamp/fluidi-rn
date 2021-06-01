@@ -42,7 +42,8 @@ export type Room = {
   id: number;
   name: string;
   photoUrl: string;
-  lastOnline: object;
+  chatRoomId: string;
+  talkRoomId: string;
 };
 
 export type User = {
