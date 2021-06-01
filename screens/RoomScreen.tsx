@@ -66,7 +66,7 @@ const RoomScreen = ({ route, navigation }: any) => {
     const messageToSend = { ...messageTemplate, content: newMessage };
     setMessages([messageToSend, ...messages]);
     setNewMessage("");
-    inputRef?.current.clear();
+    inputRef.current?.clear();
 
     const msg: MessageToSend = {
       room: "Test Room",
