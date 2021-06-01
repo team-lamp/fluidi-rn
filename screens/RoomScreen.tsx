@@ -1,10 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import MessageList from "../components/MessageList";
 import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { Icon, View } from "native-base";
 import { colors } from "../constants/styleGuide";
 import KeyboardSpacer from "react-native-keyboard-spacer";
-import { Message, MessageToSend } from "../types";
+import { RouteProp, useRoute } from "@react-navigation/native";
+import { HomeStackParamList, Message, MessageToSend } from "../types";
 import useStore from "../store";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -52,7 +53,7 @@ const messageTemplate = {
     "https://scontent-ort2-2.xx.fbcdn.net/v/t1.6435-9/119815423_3332879713474763_8048010738081328737_n.jpg?_nc_cat=103&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=Zj4PekDIPHEAX_zCmxf&_nc_ht=scontent-ort2-2.xx&oh=295e3be89c1131937c94122678249a3f&oe=60D5797F",
 };
 
-const RoomScreen = ({ route, navigation }: any) => {
+const RoomScreen = ({ navigation }: any) => {
   const insets = useSafeAreaInsets();
   const inputRef = useRef<TextInput>(null);
   const [messages, setMessages] = useState(DATA);
@@ -61,6 +62,7 @@ const RoomScreen = ({ route, navigation }: any) => {
   const socket = useStore((state) => state.socket);
   const user = useStore((state) => state.user);
   const showSendButton = Boolean(newMessage && newMessage.length);
+  const route: RouteProp<HomeStackParamList, any> = useRoute();
 
   const handleSendMessage = () => {
     const messageToSend = { ...messageTemplate, content: newMessage };
@@ -80,6 +82,13 @@ const RoomScreen = ({ route, navigation }: any) => {
   const handlePhotoPress = () => {};
 
   const handleCameraPress = () => {};
+
+  useEffect(() => {
+    socket?.emit("user-joined-room", {
+      userId: user.id,
+      roomId: route.params?.chatRoomId,
+    });
+  });
 
   return (
     <View

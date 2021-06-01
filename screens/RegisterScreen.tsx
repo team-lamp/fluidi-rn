@@ -40,7 +40,7 @@ export default function Register() {
         <TouchableOpacity
           style={styles.registerButton}
           onPress={() => {
-            register(username, password);
+            register(username, password, "Chance", "Halo");
           }}
         >
           <Text>Register</Text>
@@ -57,9 +57,19 @@ export default function Register() {
     </View>
   );
 
-  async function register(username: string, password: string) {
+  async function register(
+    username: string,
+    password: string,
+    firstName: string,
+    lastName?: string
+  ) {
     axios
-      .post(`${API_URL}/auth/register`, { username, password })
+      .post(`${API_URL}/auth/register`, {
+        username,
+        password,
+        firstName,
+        lastName,
+      })
       .then((res) => {
         console.log(res.data);
       })
