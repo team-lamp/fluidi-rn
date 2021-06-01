@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
@@ -40,11 +40,15 @@ const RoomListItem = ({ navigation, room }: RoomListItemProps) => {
   const isGroup = true;
   const defaultParams = {
     name: room.name,
-    avatar: room.photo,
+    avatar: room.photoUrl,
     lastOnline: room.lastOnline,
     room_name: room.name,
     isGroup,
   };
+
+  useEffect(() => {
+    console.log("room", room);
+  }, []);
 
   const paramsToPass = isGroup ? { ...defaultParams, members } : defaultParams;
 
@@ -54,12 +58,12 @@ const RoomListItem = ({ navigation, room }: RoomListItemProps) => {
 
   return (
     <TouchableOpacity onPress={handlePress} style={styles.itemContainer}>
-      {room.photo ? (
-        <Thumbnail source={{ uri: room.photo }} style={styles.avatar} />
+      {room.photoUrl ? (
+        <Thumbnail source={{ uri: room.photoUrl }} style={styles.avatar} />
       ) : (
         <View style={[styles.blankThumbnail, styles.avatar]}>
           <Text variant="body" style={styles.blankThumbnailText}>
-            {room.name[0]}
+            {room?.name[0]}
           </Text>
         </View>
       )}

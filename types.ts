@@ -41,7 +41,7 @@ export type MessageToSend = {
 export type Room = {
   id: number;
   name: string;
-  photo: string | null;
+  photoUrl: string;
   lastOnline: object;
 };
 

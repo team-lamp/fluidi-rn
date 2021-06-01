@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
 import LoginScreen from "./screens/LoginScreen";
-import { User } from "./types";
+import { Room, User } from "./types";
 import useStore from "./store";
 
 import { API_URL } from "./constants/secrets";
@@ -20,7 +20,6 @@ const AppLoading = ({ children }: any) => {
 
   useEffect(() => {
     // connect to the socket server
-    console.log(token);
     const socket = io(API_URL, {
       auth: {
         token: token,
@@ -30,34 +29,19 @@ const AppLoading = ({ children }: any) => {
     socket.on("connect", () => {
       console.log("connected to the server");
       setSocket(socket);
+      socket.emit("fetch rooms");
       setLoggedIn(true);
     });
 
     socket.on("invalid token", () => {
-      //
       console.log("token was invalid");
     });
-    // socket.on("connect", () => {
-    //   console.log("connected to server");
-    //   setSocket(socket);
-    //   if (user) {
-    //     socket.emit("userId", user.id);
-    //   }
-    // });
-    // socket.on("user", (user: User) => {
-    //   console.log("user data recieved", user);
-    //   setUser(user);
-    // });
-    // socket.on("token", (_token: string) => {
-    //   console.log("token received", _token);
-    //   setToken(_token);
-    // });
-    // socket.on("rooms", (rooms) => {
-    //   setRooms(rooms);
-    // });
-    // socket.on("userAddedToRoom", (roomName: string) => {
-    //   socket.emit("joinRoom", { roomName, token });
-    // });
+
+    // when the server sends us a list of rooms the client user is in
+    socket.on("rooms list", (rooms: Room[]) => {
+      console.log("fetched rooms", rooms);
+      setRooms(rooms);
+    });
   }, []);
 
   if (!loggedIn) {
