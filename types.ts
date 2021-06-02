@@ -31,6 +31,7 @@ export type HomeStackParamList = {
 
 export type Message = {
   id: number;
+  userId: number;
   username: string;
   created_at: string;
   content: string;
@@ -58,3 +59,5 @@ export type User = {
   displayName?: string;
   photo?: string;
 };
+
+export type UsersInRoom = Number[] | [];

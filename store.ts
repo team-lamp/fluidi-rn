@@ -1,9 +1,9 @@
-import createStore from "zustand";
+import createStore, { PartialState } from "zustand";
 
 import { Socket } from "socket.io-client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { configurePersist } from "zustand-persist";
-import { Room, User } from "./types";
+import { Room, User, UsersInRoom } from "./types";
 
 interface AppState {
   user: User;
@@ -40,7 +40,10 @@ const useStore = createStore<AppState>(
       setUser: (userData: User) =>
         set((state) => ({ user: { ...state.user, id: userData.id } })),
       setSocket: (socket: Socket) => set(() => ({ socket })),
-      setToken: (token: string) => set(() => ({ token })),
+      setToken: (token: string) => {
+        console.log("reseting token ", token);
+        set(() => ({ token }));
+      },
       rooms: [],
       setRooms: (rooms: Room[]) => set(() => ({ rooms })),
     })

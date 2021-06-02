@@ -17,7 +17,7 @@ const colors = {
   },
   actions: {
     stop: "#F18303",
-    play: "#00AC83",
+    play: "#2CF973",
     record: "#C51A2D",
   },
 };

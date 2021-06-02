@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList, TextInput, View } from "react-native";
 import { colors } from "../constants/styleGuide";
-import { Message as MessageType } from "../types";
+import { Message as MessageType, UsersInRoom } from "../types";
 import Message from "./Message";
 import TypingIndicator from "./TypingIndicator";
 
 interface MessageListProps {
   messages: MessageType[];
+  usersInRoom: UsersInRoom;
+  usersTyping: number[];
 }
 
-const renderTypingIndicator = (isTyping: boolean) => {
-  return <TypingIndicator isTyping={isTyping} />;
-};
-
-const MessageList = ({ messages }: MessageListProps) => {
+const MessageList = ({
+  messages,
+  usersInRoom,
+  usersTyping,
+}: MessageListProps) => {
   const [isTyping, setIsTyping] = useState(true);
 
   return (
@@ -25,6 +27,8 @@ const MessageList = ({ messages }: MessageListProps) => {
             message={item}
             showDetails={true}
             isOwnMessage={Boolean(item.username === "You")}
+            usersInRoom={usersInRoom}
+            usersTyping={usersTyping}
           />
         )}
         keyExtractor={(item) => String(item.id)}
@@ -32,7 +36,6 @@ const MessageList = ({ messages }: MessageListProps) => {
         // extraData={isTyping}
         // ListHeaderComponent={() => renderTypingIndicator(isTyping)}
       />
-      <TypingIndicator isTyping={isTyping} />
     </View>
   );
 };

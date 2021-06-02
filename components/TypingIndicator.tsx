@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo } from "react";
-import { StyleSheet, Animated } from "react-native";
+import React, { ReactNode, useEffect, useMemo } from "react";
+import { StyleSheet, Animated, View } from "react-native";
 import { TypingAnimation } from "react-native-typing-animation";
 import { colors } from "../constants/styleGuide";
 
@@ -79,12 +79,18 @@ const TypingIndicator = ({ isTyping }: TypingIndicatorProps) => {
       ]}
     >
       {isTyping ? (
-        <TypingAnimation
-          style={{ marginLeft: 15, marginTop: 7.2 }}
-          dotRadius={3.5}
-          dotMargin={6}
-          dotColor={colors.contrastText}
-        />
+        <>
+          <Animated.View
+            style={[styles.innerContainer, { height: heightScale }]}
+          >
+            <TypingAnimation
+              style={{ marginLeft: 15, marginTop: 7.2 }}
+              dotRadius={3.5}
+              dotMargin={6}
+              dotColor={colors.contrastText}
+            />
+          </Animated.View>
+        </>
       ) : null}
     </Animated.View>
   );
@@ -93,6 +99,9 @@ const TypingIndicator = ({ isTyping }: TypingIndicatorProps) => {
 const styles = StyleSheet.create({
   container: {
     marginLeft: 10,
+    marginTop: 22,
+  },
+  innerContainer: {
     width: 60,
     borderRadius: 15,
     backgroundColor: colors.secondaryBackground,
