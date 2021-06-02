@@ -12,4 +12,4 @@ web-build/
 # macOS
 .DS_Store
 
-constants/secrets
+constants/secrets.ts
