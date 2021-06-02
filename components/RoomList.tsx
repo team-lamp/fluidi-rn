@@ -36,8 +36,7 @@ const RoomList = ({ navigation }: any) => {
               const res = await axios.post(
                 `${API_URL}/rooms/create`,
                 {
-                  roomName: "Test Room1",
-                  photo: "",
+                  name: "Test Room1",
                 },
                 {
                   headers: {
@@ -45,6 +44,7 @@ const RoomList = ({ navigation }: any) => {
                   },
                 }
               );
+              console.log(res.data);
               console.log("room created!");
               // fetch the rooms now that we've added a new one. the server will send back a "rooms list" emit
               socket?.emit("fetch rooms");

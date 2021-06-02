@@ -13,7 +13,6 @@ const AppLoading = ({ children }: any) => {
   const setToken = useStore((state) => state.setToken);
   const setRooms = useStore((state) => state.setRooms);
   const token = useStore((state) => state.token);
-  // const token = "asdf";
   const user = useStore((state) => state.user);
 
   const [loggedIn, setLoggedIn] = useState(false);

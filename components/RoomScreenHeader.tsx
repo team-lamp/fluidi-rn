@@ -40,14 +40,14 @@ const RoomScreenHeader = () => {
           >
             <Text variant="caption" style={{ color: colors.contrastText }}>
               {/* @ts-ignore */}
-              {route.params.room_name[0]}
+              {route.params.name[0]}
             </Text>
           </View>
         </TouchableOpacity>
       )}
       <Text variant="title" style={{ marginLeft: 10 }}>
         {/* @ts-ignore */}
-        {route.params.room_name}
+        {route.params.name}
       </Text>
     </View>
   );

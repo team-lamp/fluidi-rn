@@ -18,7 +18,13 @@ export type DrawerParamList = {
 export type HomeStackParamList = {
   AppLoading: undefined;
   HomeScreen: undefined;
-  RoomScreen: undefined;
+  RoomScreen: {
+    name: string;
+    chatRoomId: string;
+    talkRoomId: string;
+    avatar: string;
+    isGroup: boolean;
+  };
   TalkScreen: undefined;
   ContactDetails: undefined;
 };
@@ -42,7 +48,8 @@ export type Room = {
   id: number;
   name: string;
   photoUrl: string;
-  lastOnline: object;
+  chatRoomId: string;
+  talkRoomId: string;
 };
 
 export type User = {

@@ -35,15 +35,14 @@ interface RoomListItemProps extends TouchableOpacityProps {
 const RoomListItem = ({ navigation, room }: RoomListItemProps) => {
   const socket = useStore((state) => state.socket);
   const token = useStore((state) => state.token);
-  const isOnline = moment(new Date()).diff(room.lastOnline) < 120000;
-  const lastOnline = moment(room.lastOnline).fromNow();
+  // const isOnline = moment(new Date()).diff(room.lastOnline) < 120000;
   const isGroup = true;
   const defaultParams = {
     name: room.name,
     avatar: room.photoUrl,
-    lastOnline: room.lastOnline,
-    room_name: room.name,
     isGroup,
+    chatRoomId: room.chatRoomId,
+    talkRoomId: room.talkRoomId,
   };
 
   useEffect(() => {
