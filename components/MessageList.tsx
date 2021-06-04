@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList, TextInput, View } from "react-native";
 import { colors } from "../constants/styleGuide";
+import useStore from "../store";
 import { Message as MessageType, UsersInRoom } from "../types";
 import Message from "./Message";
 import TypingIndicator from "./TypingIndicator";
@@ -18,6 +19,7 @@ const MessageList = ({
   usersTyping,
   isTyping,
 }: MessageListProps) => {
+  const user = useStore((state) => state.user);
   return (
     <View style={styles.container}>
       <FlatList
@@ -26,7 +28,7 @@ const MessageList = ({
           <Message
             message={item}
             showDetails={true}
-            isOwnMessage={Boolean(item.username === "You")}
+            isOwnMessage={Boolean(item.userId == user.id)}
             usersInRoom={usersInRoom}
             usersTyping={usersTyping}
           />

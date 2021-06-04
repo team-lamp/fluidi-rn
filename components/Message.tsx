@@ -45,13 +45,13 @@ const Message = ({
 
   useEffect(() => {
     const usersCopy = [...usersInRoom];
-    const userId = message.userId;
+    const userId = message.senderUserId;
     setIsUserInRoom(Boolean(usersInRoom.length) && usersCopy.includes(userId));
   }, [usersInRoom]);
 
   useEffect(() => {
     const typingUsersCopy = [...usersTyping];
-    const userId = message.userId;
+    const userId = message.senderUserId;
     if (
       !isOwnMessage &&
       Boolean(typingUsersCopy) &&
@@ -65,7 +65,7 @@ const Message = ({
 
   const Avatar = ({ typingPhoto }: AvatarProps) => {
     const verticalPosition = typingPhoto ? { bottom: 45 } : { top: 0 };
-    if (!message.user_photo) {
+    if (!message.senderPhotoUrl) {
       return (
         <View
           style={[
@@ -78,13 +78,13 @@ const Message = ({
             },
           ]}
         >
-          <Text variant="caption">{message.username[0]}</Text>
+          <Text variant="caption">{message?.username[0]}</Text>
         </View>
       );
     }
     return (
       <Image
-        source={{ uri: message.user_photo }}
+        source={{ uri: message.senderPhotoUrl }}
         style={[
           styles.avatarContainer,
           avatarPosition,
@@ -119,7 +119,7 @@ const Message = ({
           },
         ]}
       >
-        <Text variant="body">{message.content}</Text>
+        <Text variant="body">{message.text}</Text>
       </View>
       <Avatar typingPhoto={false} />
       <View

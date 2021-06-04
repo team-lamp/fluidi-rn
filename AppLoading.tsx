@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { io, Socket } from "socket.io-client";
 import LoginScreen from "./screens/LoginScreen";
-import { Room, User } from "./types";
+import { Message, Room, User } from "./types";
 import useStore from "./store";
 
 import { API_URL } from "./constants/secrets";
@@ -14,6 +14,7 @@ const AppLoading = ({ children }: any) => {
   const setRooms = useStore((state) => state.setRooms);
   const token = useStore((state) => state.token);
   const user = useStore((state) => state.user);
+  const setMessages = useStore((state) => state.setMessages);
 
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -45,6 +46,11 @@ const AppLoading = ({ children }: any) => {
     socket.on("online-users", (data: any) => {
       console.log("user online data");
       console.log(data);
+    });
+
+    socket.on("chat messages", (messages: Message[]) => {
+      console.log("messages incoming", messages);
+      setMessages(messages);
     });
   }, [token]);
 

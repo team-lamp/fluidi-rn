@@ -31,18 +31,16 @@ export type HomeStackParamList = {
 
 export type Message = {
   id: number;
-  userId: number;
+  senderUserId: number;
   username: string;
-  created_at: string;
-  content: string;
-  user_photo: string;
+  createdAt: string;
+  text: string;
+  senderPhotoUrl: string;
 };
 
 export type MessageToSend = {
+  chatRoomId: string;
   text: string;
-  sender: User;
-  room: string;
-  timestamp: Date;
 };
 
 export type Room = {
