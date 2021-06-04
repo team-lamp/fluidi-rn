@@ -17,7 +17,6 @@ import TypingIndicator from "./TypingIndicator";
 interface MessageProps {
   message: MessageType;
   isOwnMessage: boolean;
-  showDetails: boolean;
   usersInRoom: UsersInRoom;
   usersTyping: number[];
 }
@@ -28,15 +27,13 @@ interface AvatarProps {
 
 const Message = ({
   message,
-  showDetails,
   isOwnMessage,
   usersInRoom,
   usersTyping,
 }: MessageProps) => {
-  //@ts-ignore
   const [isUserInRoom, setIsUserInRoom] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-  const borderColor = isOwnMessage ? colors.brand : colors.secondaryBackground;
+
   const onlineOfflineColor = isUserInRoom
     ? colors.actions.play
     : colors.secondaryText;
@@ -73,7 +70,6 @@ const Message = ({
             avatarPosition,
             verticalPosition,
             {
-              borderColor,
               backgroundColor: colors.dim,
             },
           ]}
@@ -84,16 +80,17 @@ const Message = ({
     }
     return (
       <Image
+        // style={[
+        //   styles.avatarContainer,
+        //   avatarPosition,
+        //   verticalPosition,
+        //   {
+        //     resizeMode: "cover",
+        //     borderColor: "red",
+        //   },
+        // ]}
         source={{ uri: message.senderPhotoUrl }}
-        style={[
-          styles.avatarContainer,
-          avatarPosition,
-          verticalPosition,
-          {
-            resizeMode: "cover",
-            borderColor,
-          },
-        ]}
+        style={[styles.avatarContainer, avatarPosition, verticalPosition]}
       />
     );
   };
@@ -110,8 +107,8 @@ const Message = ({
           styles.contentContainer,
           {
             backgroundColor: isOwnMessage
-              ? colors.brand
-              : colors.secondaryBackground,
+              ? colors.lowOpacity.brand
+              : colors.lowOpacity.secondaryBackground,
             paddingLeft: isOwnMessage ? 10 : 20,
             paddingRight: isOwnMessage ? 20 : 10,
             marginLeft: isOwnMessage ? 0 : 10,
@@ -131,8 +128,6 @@ const Message = ({
             width: 12,
             borderRadius: 12 / 2,
             backgroundColor: onlineOfflineColor,
-            borderWidth: 1.5,
-            borderColor,
             zIndex: 100,
           },
           onlineOfflinePosition,
@@ -150,8 +145,6 @@ const Message = ({
                 width: 12,
                 borderRadius: 12 / 2,
                 backgroundColor: onlineOfflineColor,
-                borderWidth: 1.5,
-                borderColor,
                 zIndex: 100,
               },
               onlineOfflinePosition,
@@ -181,9 +174,7 @@ const styles = StyleSheet.create({
   avatarContainer: {
     height: 34,
     width: 34,
-    borderWidth: 2,
     borderRadius: 34 / 2,
-    overflow: "hidden",
     position: "absolute",
     zIndex: 50,
   },

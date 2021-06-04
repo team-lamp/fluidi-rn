@@ -36,6 +36,7 @@ export type Message = {
   createdAt: string;
   text: string;
   senderPhotoUrl: string;
+  showDetails?: boolean;
 };
 
 export type MessageToSend = {

@@ -61,7 +61,7 @@ const RoomListItem = ({ navigation, room }: RoomListItemProps) => {
         <Thumbnail source={{ uri: room.photoUrl }} style={styles.avatar} />
       ) : (
         <View style={[styles.blankThumbnail, styles.avatar]}>
-          <Text variant="body" style={styles.blankThumbnailText}>
+          <Text variant="header" style={styles.blankThumbnailText}>
             {room?.name[0]}
           </Text>
         </View>
