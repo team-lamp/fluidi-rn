@@ -1,6 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import MessageList from "../components/MessageList";
-import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+} from "react-native";
+import { BlurView } from "expo-blur";
 import { Icon, View } from "native-base";
 import { colors } from "../constants/styleGuide";
 import KeyboardSpacer from "react-native-keyboard-spacer";
@@ -139,67 +146,76 @@ const RoomScreen = ({ navigation }: any) => {
   }, []);
 
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          paddingLeft: insets.left,
-          paddingRight: insets.right,
-          paddingBottom: isFocused ? 5 : insets.bottom,
-        },
-      ]}
-    >
-      <MessageList
-        messages={messages}
-        usersInRoom={usersInRoom}
-        usersTyping={usersTyping}
+    <View style={[styles.container]}>
+      <Image
+        source={{
+          uri: "https://images.unsplash.com/photo-1550757750-4ce187a65014?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3634&q=80",
+        }}
+        style={{
+          height: Dimensions.get("window").height,
+          resizeMode: "stretch",
+          flex: 1,
+        }}
       />
-      <View style={{ paddingHorizontal: 20 }}>
-        <TextInput
-          ref={inputRef}
-          multiline
-          placeholder="Type a message"
-          placeholderTextColor={colors.lowOpacity.white}
-          style={styles.textInput}
-          onChangeText={(text) => setNewMessage(text)}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
+      <BlurView intensity={92} tint="dark" style={[StyleSheet.absoluteFill]}>
+        <MessageList
+          messages={messages}
+          usersInRoom={usersInRoom}
+          usersTyping={usersTyping}
+          isTyping={isTyping}
         />
-      </View>
-      <View style={styles.iconContainer}>
-        <View style={styles.leftIconContainer}>
-          <TouchableOpacity
-            onPress={handlePhotoPress}
-            style={styles.iconButton}
-          >
-            <Icon
-              type="SimpleLineIcons"
-              name="picture"
-              style={styles.leftIcons}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={handleCameraPress}
-            style={styles.iconButton}
-          >
-            <Icon
-              type="SimpleLineIcons"
-              name="camera"
-              style={styles.leftIcons}
-            />
-          </TouchableOpacity>
+        <View style={{ paddingHorizontal: 20 }}>
+          <TextInput
+            ref={inputRef}
+            multiline
+            placeholder="Type a message"
+            placeholderTextColor={colors.lowOpacity.white}
+            style={styles.textInput}
+            onChangeText={(text) => setNewMessage(text)}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+          />
         </View>
-        {showSendButton && (
-          <TouchableOpacity onPress={handleSendMessage}>
-            <Icon
-              type="SimpleLineIcons"
-              name="paper-plane"
-              style={{ color: colors.brand }}
-            />
-          </TouchableOpacity>
-        )}
-      </View>
-      <KeyboardSpacer />
+        <View
+          style={[
+            styles.iconContainer,
+            { marginBottom: isFocused ? 5 : insets.bottom },
+          ]}
+        >
+          <View style={styles.leftIconContainer}>
+            <TouchableOpacity
+              onPress={handlePhotoPress}
+              style={styles.iconButton}
+            >
+              <Icon
+                type="SimpleLineIcons"
+                name="picture"
+                style={styles.leftIcons}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleCameraPress}
+              style={styles.iconButton}
+            >
+              <Icon
+                type="SimpleLineIcons"
+                name="camera"
+                style={styles.leftIcons}
+              />
+            </TouchableOpacity>
+          </View>
+          {showSendButton && (
+            <TouchableOpacity onPress={handleSendMessage}>
+              <Icon
+                type="SimpleLineIcons"
+                name="paper-plane"
+                style={{ color: colors.brand }}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+        <KeyboardSpacer />
+      </BlurView>
     </View>
   );
 };

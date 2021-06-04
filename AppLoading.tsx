@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import LoginScreen from "./screens/LoginScreen";
 import { Room, User } from "./types";
 import useStore from "./store";
@@ -41,7 +41,12 @@ const AppLoading = ({ children }: any) => {
       console.log("fetched rooms", rooms);
       setRooms(rooms);
     });
-  }, []);
+
+    socket.on("online-users", (data: any) => {
+      console.log("user online data");
+      console.log(data);
+    });
+  }, [token]);
 
   if (!loggedIn) {
     return <LoginScreen />;

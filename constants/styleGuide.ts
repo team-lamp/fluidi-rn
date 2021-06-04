@@ -6,11 +6,12 @@ const colors = {
   background: "#292F3F",
   secondaryBackground: "#1B1E27",
   backgroundDark: "#1F232F",
+  black: "#000",
   contrastText: "#ffffff",
   secondaryText: "#808080",
   dim: "#454B5A",
   lowOpacity: {
-    grey: "rgba(151, 151, 151, 0.2)",
+    grey: "rgba(151, 151, 151, 0.3)",
     dark: "rgba(100, 100, 100, 0.2)",
     brand: "rgba(3, 169, 241, 0.5)",
     white: "rgba(255, 255, 255, 0.5)",
@@ -24,12 +25,23 @@ const colors = {
 
 const headerStyle: ViewStyle = {
   height: 100,
-  backgroundColor: "#1F232F",
+  backgroundColor: colors.backgroundDark,
   borderWidth: 0,
   shadowOpacity: 0.5,
-  shadowColor: "#000",
+  shadowColor: colors.black,
   shadowRadius: 3,
   elevation: 2,
 };
 
-export { colors, headerStyle };
+const shadow = {
+  shadowOpacity: 0.4,
+  shadowColor: colors.secondaryBackground,
+  elevation: 3,
+  shadowOffset: {
+    height: 3,
+    width: 0,
+  },
+  shadowRadius: 3,
+};
+
+export { colors, headerStyle, shadow };

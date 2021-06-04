@@ -9,15 +9,15 @@ interface MessageListProps {
   messages: MessageType[];
   usersInRoom: UsersInRoom;
   usersTyping: number[];
+  isTyping: boolean;
 }
 
 const MessageList = ({
   messages,
   usersInRoom,
   usersTyping,
+  isTyping,
 }: MessageListProps) => {
-  const [isTyping, setIsTyping] = useState(true);
-
   return (
     <View style={styles.container}>
       <FlatList

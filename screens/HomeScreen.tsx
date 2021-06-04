@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useCallback } from "react";
+import React, { useRef, useMemo, useCallback, useState } from "react";
 import RoomList from "../components/RoomList";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import useStore from "../store";
@@ -6,6 +6,7 @@ import { Icon, Thumbnail } from "native-base";
 import { colors } from "../constants/styleGuide";
 import BottomSheet, { BottomSheetSectionList } from "@gorhom/bottom-sheet";
 import Text from "../components/themed/Text";
+import Avatar from "../components/themed/Avatar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface SectionHeaderProps {
@@ -37,6 +38,14 @@ const ContactItem = ({ item }: ContactItemProps) => {
         marginRight: 20,
         marginVertical: 5,
         padding: 10,
+        shadowOpacity: 0.6,
+        shadowColor: colors.black,
+        shadowOffset: {
+          height: 2,
+          width: 0,
+        },
+        shadowRadius: 5,
+        elevation: 3,
       }}
     >
       <View
@@ -46,20 +55,14 @@ const ContactItem = ({ item }: ContactItemProps) => {
         }}
       >
         {hasAvatar ? (
-          <Thumbnail small source={{ uri: item.avatar }} />
+          <Avatar uri={item.avatar} variant="small" />
         ) : (
-          <View
-            style={{
-              height: 36,
-              width: 36,
-              borderRadius: 36 / 2,
-              backgroundColor: colors.secondaryText,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text variant="body">{item.firstName[0]}</Text>
-          </View>
+          <Avatar
+            variant="small"
+            letter={item.firstName[0]}
+            textVariant="body"
+            viewStyle={{ backgroundColor: colors.secondaryText }}
+          />
         )}
         <Text variant="body" style={{ marginLeft: 10 }}>
           {name}
@@ -151,8 +154,18 @@ const HomeScreen = ({ navigation }: any) => {
   const token = useStore((state) => state.token);
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => [0, "100%"], []);
+  const [isAddingContact, setIsAddingContact] = useState(false);
 
   const handleOpen = () => bottomSheetRef?.current?.expand();
+
+  const handleClose = useCallback(() => {
+    setIsAddingContact(false);
+    bottomSheetRef?.current?.close();
+  }, []);
+
+  const handleBeginAddContact = useCallback(() => {
+    setIsAddingContact(true);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -176,59 +189,102 @@ const HomeScreen = ({ navigation }: any) => {
         </TouchableOpacity>
       </View>
       <BottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
-        <View
-          style={{
-            backgroundColor: colors.backgroundDark,
-            paddingVertical: 20,
-            alignItems: "center",
-            shadowOpacity: 0.5,
-            shadowColor: "#000",
-            shadowRadius: 4,
-            elevation: 2,
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginVertical: 10,
-            }}
+        {isAddingContact ? (
+          <View
+            style={{ flex: 1, backgroundColor: colors.background, padding: 10 }}
           >
-            <Icon
-              type="MaterialIcons"
-              name="person-add"
-              style={{ color: colors.contrastText }}
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <TouchableOpacity onPress={() => setIsAddingContact(false)}>
+                <Icon
+                  type="Ionicons"
+                  name="chevron-back"
+                  style={{ color: colors.brand, fontSize: 34 }}
+                />
+              </TouchableOpacity>
+              <Text variant="header">Search</Text>
+              <TouchableOpacity onPress={handleClose}>
+                <Icon
+                  type="Ionicons"
+                  name="close-outline"
+                  style={{ color: colors.brand, fontSize: 34 }}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+        ) : (
+          <>
+            <View
+              style={{ backgroundColor: colors.background, paddingBottom: 7 }}
+            >
+              <View
+                style={{
+                  backgroundColor: colors.backgroundDark,
+                  paddingVertical: 20,
+                  alignItems: "center",
+                  shadowOpacity: 0.5,
+                  shadowColor: colors.black,
+                  shadowOffset: {
+                    height: 2,
+                    width: 0,
+                  },
+                  shadowRadius: 4,
+                  elevation: 3,
+                  borderBottomRightRadius: 20,
+                  borderBottomLeftRadius: 20,
+                }}
+              >
+                <TouchableOpacity
+                  onPress={handleBeginAddContact}
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginVertical: 10,
+                  }}
+                >
+                  <Icon
+                    type="MaterialIcons"
+                    name="person-add"
+                    style={{ color: colors.contrastText }}
+                  />
+                  <Text variant="body" style={{ marginLeft: 10 }}>
+                    Add new Contact
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginVertical: 10,
+                  }}
+                >
+                  <Icon
+                    type="MaterialIcons"
+                    name="group"
+                    style={{ color: colors.contrastText }}
+                  />
+                  <Text variant="body" style={{ marginLeft: 10 }}>
+                    Create new Group
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <BottomSheetSectionList
+              sections={contactData}
+              keyExtractor={(i) => String(i.id)}
+              renderSectionHeader={({ section }) => (
+                <SectionHeader section={section} />
+              )}
+              renderItem={({ item }) => <ContactItem item={item} />}
+              style={{ flex: 1, backgroundColor: colors.background }}
             />
-            <Text variant="body" style={{ marginLeft: 10 }}>
-              Add new Contact
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginVertical: 10,
-            }}
-          >
-            <Icon
-              type="MaterialIcons"
-              name="group"
-              style={{ color: colors.contrastText }}
-            />
-            <Text variant="body" style={{ marginLeft: 10 }}>
-              Create new Group
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <BottomSheetSectionList
-          sections={contactData}
-          keyExtractor={(i) => String(i.id)}
-          renderSectionHeader={({ section }) => (
-            <SectionHeader section={section} />
-          )}
-          renderItem={({ item }) => <ContactItem item={item} />}
-          style={{ flex: 1, backgroundColor: colors.background }}
-        />
+          </>
+        )}
       </BottomSheet>
     </View>
   );

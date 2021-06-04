@@ -42,7 +42,6 @@ const Message = ({
     : colors.secondaryText;
   const onlineOfflinePosition = isOwnMessage ? { right: 0 } : { left: 0 };
   const avatarPosition = isOwnMessage ? { right: 6 } : { left: 6 };
-  const [isLastMessage, setIsLastMessage] = useState(false);
 
   useEffect(() => {
     const usersCopy = [...usersInRoom];
