@@ -15,6 +15,8 @@ const colors = {
     dark: "rgba(100, 100, 100, 0.2)",
     brand: "rgba(3, 169, 241, 0.5)",
     white: "rgba(255, 255, 255, 0.5)",
+    green: "rgba(5, 206, 87, 0.1)",
+    secondaryBackground: "rgba(7, 7, 10, 0.5)",
   },
   actions: {
     stop: "#F18303",
@@ -31,6 +33,10 @@ const headerStyle: ViewStyle = {
   shadowColor: colors.black,
   shadowRadius: 3,
   elevation: 2,
+  shadowOffset: {
+    height: 2,
+    width: 0,
+  },
 };
 
 const shadow = {

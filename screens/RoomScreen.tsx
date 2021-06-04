@@ -9,12 +9,13 @@ import {
 } from "react-native";
 import { BlurView } from "expo-blur";
 import { Icon, View } from "native-base";
-import { colors } from "../constants/styleGuide";
+import { colors, shadow } from "../constants/styleGuide";
 import KeyboardSpacer from "react-native-keyboard-spacer";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { HomeStackParamList, Message, MessageToSend } from "../types";
 import useStore from "../store";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { LinearGradient } from "expo-linear-gradient";
 
 const DATA: Message[] = [
   {
@@ -65,7 +66,7 @@ const messageTemplate = {
     "https://scontent-ort2-2.xx.fbcdn.net/v/t1.6435-9/119815423_3332879713474763_8048010738081328737_n.jpg?_nc_cat=103&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=Zj4PekDIPHEAX_zCmxf&_nc_ht=scontent-ort2-2.xx&oh=295e3be89c1131937c94122678249a3f&oe=60D5797F",
 };
 
-const RoomScreen = ({ navigation }: any) => {
+const RoomScreen = () => {
   const insets = useSafeAreaInsets();
   const inputRef = useRef<TextInput>(null);
   const [messages, setMessages] = useState(DATA);
@@ -93,10 +94,6 @@ const RoomScreen = ({ navigation }: any) => {
     };
     socket?.emit("chatMessage", msg);
   };
-
-  const handlePhotoPress = () => {};
-
-  const handleCameraPress = () => {};
 
   useEffect(() => {
     console.log(`newMessage - ${newMessage}`);
@@ -140,82 +137,63 @@ const RoomScreen = ({ navigation }: any) => {
     });
     return () => {
       console.log("use effect cleanup");
-      socket?.off("user-joined-room");
       socket?.emit("leave-room");
     };
   }, []);
 
   return (
-    <View style={[styles.container]}>
-      <Image
-        source={{
-          uri: "https://images.unsplash.com/photo-1550757750-4ce187a65014?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3634&q=80",
-        }}
+    <View style={styles.container}>
+      <MessageList
+        messages={messages}
+        usersInRoom={usersInRoom}
+        usersTyping={usersTyping}
+        isTyping={isTyping}
+      />
+      <View
         style={{
-          height: Dimensions.get("window").height,
-          resizeMode: "stretch",
-          flex: 1,
+          paddingHorizontal: 20,
+          paddingTop: 30,
+          marginBottom: isFocused ? 5 : insets.bottom + 20,
+        }}
+      >
+        <TextInput
+          ref={inputRef}
+          multiline
+          value={newMessage}
+          placeholder="Type a message"
+          placeholderTextColor={colors.contrastText}
+          style={[
+            styles.textInput,
+            shadow,
+            { fontWeight: Boolean(newMessage) ? "300" : "100" },
+          ]}
+          onChangeText={(text) => setNewMessage(text)}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+        />
+      </View>
+
+      {showSendButton && (
+        <TouchableOpacity onPress={handleSendMessage}>
+          <Icon
+            type="SimpleLineIcons"
+            name="paper-plane"
+            style={{ color: colors.brand }}
+          />
+        </TouchableOpacity>
+      )}
+      <KeyboardSpacer />
+      <LinearGradient
+        colors={["transparent", colors.lowOpacity.green]}
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: Dimensions.get("window").height / 2,
+          zIndex: -50,
         }}
       />
-      <BlurView intensity={92} tint="dark" style={[StyleSheet.absoluteFill]}>
-        <MessageList
-          messages={messages}
-          usersInRoom={usersInRoom}
-          usersTyping={usersTyping}
-          isTyping={isTyping}
-        />
-        <View style={{ paddingHorizontal: 20 }}>
-          <TextInput
-            ref={inputRef}
-            multiline
-            placeholder="Type a message"
-            placeholderTextColor={colors.lowOpacity.white}
-            style={styles.textInput}
-            onChangeText={(text) => setNewMessage(text)}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-          />
-        </View>
-        <View
-          style={[
-            styles.iconContainer,
-            { marginBottom: isFocused ? 5 : insets.bottom },
-          ]}
-        >
-          <View style={styles.leftIconContainer}>
-            <TouchableOpacity
-              onPress={handlePhotoPress}
-              style={styles.iconButton}
-            >
-              <Icon
-                type="SimpleLineIcons"
-                name="picture"
-                style={styles.leftIcons}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={handleCameraPress}
-              style={styles.iconButton}
-            >
-              <Icon
-                type="SimpleLineIcons"
-                name="camera"
-                style={styles.leftIcons}
-              />
-            </TouchableOpacity>
-          </View>
-          {showSendButton && (
-            <TouchableOpacity onPress={handleSendMessage}>
-              <Icon
-                type="SimpleLineIcons"
-                name="paper-plane"
-                style={{ color: colors.brand }}
-              />
-            </TouchableOpacity>
-          )}
-        </View>
-        <KeyboardSpacer />
-      </BlurView>
     </View>
   );
 };
@@ -226,10 +204,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   textInput: {
-    backgroundColor: colors.secondaryBackground,
+    backgroundColor: colors.lowOpacity.grey,
     borderRadius: 15,
     color: colors.contrastText,
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
     paddingVertical: 5,
     fontSize: 20,
     minHeight: 40,

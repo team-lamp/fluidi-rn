@@ -2,7 +2,7 @@ import React, { useRef, useMemo, useCallback, useState } from "react";
 import RoomList from "../components/RoomList";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import useStore from "../store";
-import { Icon, Thumbnail } from "native-base";
+import { Icon } from "native-base";
 import { colors } from "../constants/styleGuide";
 import BottomSheet, { BottomSheetSectionList } from "@gorhom/bottom-sheet";
 import Text from "../components/themed/Text";
@@ -156,16 +156,17 @@ const HomeScreen = ({ navigation }: any) => {
   const snapPoints = useMemo(() => [0, "100%"], []);
   const [isAddingContact, setIsAddingContact] = useState(false);
 
-  const handleOpen = () => bottomSheetRef?.current?.expand();
+  const handleOpen = useCallback(
+    () => bottomSheetRef?.current?.expand(),
+    [bottomSheetRef]
+  );
 
   const handleClose = useCallback(() => {
     setIsAddingContact(false);
     bottomSheetRef?.current?.close();
-  }, []);
+  }, [bottomSheetRef]);
 
-  const handleBeginAddContact = useCallback(() => {
-    setIsAddingContact(true);
-  }, []);
+  const handleBeginAddContact = useCallback(() => setIsAddingContact(true), []);
 
   return (
     <View style={styles.container}>
@@ -193,13 +194,7 @@ const HomeScreen = ({ navigation }: any) => {
           <View
             style={{ flex: 1, backgroundColor: colors.background, padding: 10 }}
           >
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
+            <View style={styles.searchHeaderContainer}>
               <TouchableOpacity onPress={() => setIsAddingContact(false)}>
                 <Icon
                   type="Ionicons"
@@ -222,30 +217,10 @@ const HomeScreen = ({ navigation }: any) => {
             <View
               style={{ backgroundColor: colors.background, paddingBottom: 7 }}
             >
-              <View
-                style={{
-                  backgroundColor: colors.backgroundDark,
-                  paddingVertical: 20,
-                  alignItems: "center",
-                  shadowOpacity: 0.5,
-                  shadowColor: colors.black,
-                  shadowOffset: {
-                    height: 2,
-                    width: 0,
-                  },
-                  shadowRadius: 4,
-                  elevation: 3,
-                  borderBottomRightRadius: 20,
-                  borderBottomLeftRadius: 20,
-                }}
-              >
+              <View style={styles.headerContainer}>
                 <TouchableOpacity
                   onPress={handleBeginAddContact}
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    marginVertical: 10,
-                  }}
+                  style={styles.mainHeaderButtons}
                 >
                   <Icon
                     type="MaterialIcons"
@@ -256,13 +231,7 @@ const HomeScreen = ({ navigation }: any) => {
                     Add new Contact
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    marginVertical: 10,
-                  }}
-                >
+                <TouchableOpacity style={styles.mainHeaderButtons}>
                   <Icon
                     type="MaterialIcons"
                     name="group"
@@ -311,6 +280,31 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     shadowOpacity: 0.4,
     elevation: 2,
+  },
+  searchHeaderContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  headerContainer: {
+    backgroundColor: colors.backgroundDark,
+    paddingVertical: 20,
+    alignItems: "center",
+    shadowOpacity: 0.5,
+    shadowColor: colors.black,
+    shadowOffset: {
+      height: 2,
+      width: 0,
+    },
+    shadowRadius: 4,
+    elevation: 3,
+    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 20,
+  },
+  mainHeaderButtons: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 10,
   },
 });
 

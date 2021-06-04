@@ -4,6 +4,7 @@ import { colors } from "../constants/styleGuide";
 import { Message as MessageType, UsersInRoom } from "../types";
 import Message from "./Message";
 import TypingIndicator from "./TypingIndicator";
+import useStore from "../store";
 
 interface MessageListProps {
   messages: MessageType[];
@@ -18,19 +19,24 @@ const MessageList = ({
   usersTyping,
   isTyping,
 }: MessageListProps) => {
+  const user = useStore((state) => state.user);
+
   return (
     <View style={styles.container}>
       <FlatList
         data={messages}
-        renderItem={({ item }) => (
-          <Message
-            message={item}
-            showDetails={true}
-            isOwnMessage={Boolean(item.username === "You")}
-            usersInRoom={usersInRoom}
-            usersTyping={usersTyping}
-          />
-        )}
+        renderItem={({ item }) => {
+          const isGroupMessage = false;
+
+          return (
+            <Message
+              message={item}
+              isOwnMessage={Boolean(item.userId === user.id)}
+              usersInRoom={usersInRoom}
+              usersTyping={usersTyping}
+            />
+          );
+        }}
         keyExtractor={(item) => String(item.id)}
         inverted
         // extraData={isTyping}
