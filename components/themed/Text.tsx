@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   body: {
     color: colors.contrastText,
     fontSize: 20,
-    fontWeight: "300",
+    fontWeight: "200",
   },
   header: {
     color: colors.contrastText,
