@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList, TextInput, View } from "react-native";
 import { colors } from "../constants/styleGuide";
+import useStore from "../store";
 import { Message as MessageType, UsersInRoom } from "../types";
 import Message from "./Message";
 import TypingIndicator from "./TypingIndicator";
-import useStore from "../store";
 
 interface MessageListProps {
   messages: MessageType[];
@@ -25,18 +25,15 @@ const MessageList = ({
     <View style={styles.container}>
       <FlatList
         data={messages}
-        renderItem={({ item }) => {
-          const isGroupMessage = false;
-
-          return (
-            <Message
-              message={item}
-              isOwnMessage={Boolean(item.userId === user.id)}
-              usersInRoom={usersInRoom}
-              usersTyping={usersTyping}
-            />
-          );
-        }}
+        renderItem={({ item }) => (
+          <Message
+            message={item}
+            showDetails={true}
+            isOwnMessage={Boolean(item.userId == user.id)}
+            usersInRoom={usersInRoom}
+            usersTyping={usersTyping}
+          />
+        )}
         keyExtractor={(item) => String(item.id)}
         inverted
         // extraData={isTyping}

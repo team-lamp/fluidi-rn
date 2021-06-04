@@ -3,7 +3,7 @@ import createStore, { PartialState } from "zustand";
 import { Socket } from "socket.io-client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { configurePersist } from "zustand-persist";
-import { Room, User, UsersInRoom } from "./types";
+import { Message, Room, User, UsersInRoom } from "./types";
 
 interface AppState {
   user: User;
@@ -14,6 +14,8 @@ interface AppState {
   setToken: (token: string) => void;
   rooms: Room[];
   setRooms: (rooms: Room[]) => void;
+  messages: Message[];
+  setMessages: (message: Message[]) => void;
 }
 
 const { persist, purge } = configurePersist({
@@ -46,6 +48,8 @@ const useStore = createStore<AppState>(
       },
       rooms: [],
       setRooms: (rooms: Room[]) => set(() => ({ rooms })),
+      messages: [],
+      setMessages: (messages: Message[]) => set(() => ({ messages })),
     })
   )
 );

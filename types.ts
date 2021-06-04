@@ -33,16 +33,15 @@ export type Message = {
   id: number;
   userId: number;
   username: string;
-  created_at: string;
-  content: string;
-  user_photo: string;
+  createdAt: string;
+  text: string;
+  senderPhotoUrl: string;
+  chatRoomId: string;
 };
 
 export type MessageToSend = {
+  chatRoomId: string;
   text: string;
-  sender: User;
-  room: string;
-  timestamp: Date;
 };
 
 export type Room = {

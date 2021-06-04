@@ -17,59 +17,19 @@ import useStore from "../store";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 
-const DATA: Message[] = [
-  {
-    id: 1243,
-    userId: 12,
-    username: "Katie",
-    created_at: new Date().toDateString(),
-    content: "Y'know, bein awesome n shit.",
-    user_photo:
-      "https://scontent-ort2-2.xx.fbcdn.net/v/t1.6435-9/161102903_10158001431472322_1672271331533195877_n.jpg?_nc_cat=107&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=DM8jSvIN4aIAX_b5mn1&_nc_ht=scontent-ort2-2.xx&oh=ec0e0a593c40c19531bf177e32f59b27&oe=60D76938",
-  },
-  {
-    id: 874,
-    userId: 1,
-    username: "You",
-    created_at: new Date().toDateString(),
-    content: "Chillin chillin. You?",
-    user_photo:
-      "https://scontent-ort2-2.xx.fbcdn.net/v/t1.6435-9/119815423_3332879713474763_8048010738081328737_n.jpg?_nc_cat=103&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=Zj4PekDIPHEAX_zCmxf&_nc_ht=scontent-ort2-2.xx&oh=295e3be89c1131937c94122678249a3f&oe=60D5797F",
-  },
-  {
-    id: 9723,
-    userId: 12,
-    username: "Katie",
-    created_at: new Date().toDateString(),
-    content: "Wassup",
-    user_photo:
-      "https://scontent-ort2-2.xx.fbcdn.net/v/t1.6435-9/161102903_10158001431472322_1672271331533195877_n.jpg?_nc_cat=107&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=DM8jSvIN4aIAX_b5mn1&_nc_ht=scontent-ort2-2.xx&oh=ec0e0a593c40c19531bf177e32f59b27&oe=60D76938",
-  },
-  {
-    id: 9275,
-    userId: 12,
-    username: "Katie",
-    created_at: new Date().toDateString(),
-    content: "Hey, baby!",
-    user_photo:
-      "https://scontent-ort2-2.xx.fbcdn.net/v/t1.6435-9/161102903_10158001431472322_1672271331533195877_n.jpg?_nc_cat=107&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=DM8jSvIN4aIAX_b5mn1&_nc_ht=scontent-ort2-2.xx&oh=ec0e0a593c40c19531bf177e32f59b27&oe=60D76938",
-  },
-];
-
 const messageTemplate = {
   id: Date.now() + Math.random(), // in case two messages are sent at the same time
   username: "You",
-  userId: 1,
-  created_at: new Date().toDateString(),
-  content: "",
-  user_photo:
+  senderUserId: 1,
+  createdAt: new Date().toDateString(),
+  text: "",
+  senderPhotoUrl:
     "https://scontent-ort2-2.xx.fbcdn.net/v/t1.6435-9/119815423_3332879713474763_8048010738081328737_n.jpg?_nc_cat=103&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=Zj4PekDIPHEAX_zCmxf&_nc_ht=scontent-ort2-2.xx&oh=295e3be89c1131937c94122678249a3f&oe=60D5797F",
 };
 
 const RoomScreen = () => {
   const insets = useSafeAreaInsets();
   const inputRef = useRef<TextInput>(null);
-  const [messages, setMessages] = useState(DATA);
   const [newMessage, setNewMessage] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [usersInRoom, setUsersInRoom] = useState([]);
@@ -79,20 +39,26 @@ const RoomScreen = () => {
   const user = useStore((state) => state.user);
   const showSendButton = Boolean(newMessage && newMessage.length);
   const route: RouteProp<HomeStackParamList, any> = useRoute();
+  const [chatRoomId, setChatRoomId] = useState("");
+  const messages = useStore((state) => state.messages).filter(
+    (msg) => msg.chatRoomId === chatRoomId
+  );
 
   const handleSendMessage = () => {
-    const messageToSend = { ...messageTemplate, content: newMessage };
-    setMessages([messageToSend, ...messages]);
+    const messageToSend: MessageToSend = {
+      ...messageTemplate,
+      text: newMessage,
+      chatRoomId,
+    };
+    // setMessages([messageToSend, ...messages]);
     setNewMessage("");
     inputRef.current?.clear();
 
     const msg: MessageToSend = {
-      room: "Test Room",
-      sender: user,
-      text: messageToSend.content,
-      timestamp: new Date(),
+      chatRoomId,
+      text: messageToSend.text,
     };
-    socket?.emit("chatMessage", msg);
+    socket?.emit("send chat message", msg);
   };
 
   useEffect(() => {
@@ -120,6 +86,7 @@ const RoomScreen = () => {
 
   useEffect(() => {
     console.log("initial use effect");
+    setChatRoomId(route.params?.chatRoomId);
     socket?.emit("users-in-room", {
       userId: user.id,
       roomId: route.params?.chatRoomId,

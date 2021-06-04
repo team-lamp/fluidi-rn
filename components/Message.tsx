@@ -19,6 +19,7 @@ interface MessageProps {
   isOwnMessage: boolean;
   usersInRoom: UsersInRoom;
   usersTyping: number[];
+  showDetails: boolean;
 }
 
 interface AvatarProps {
@@ -62,7 +63,7 @@ const Message = ({
 
   const Avatar = ({ typingPhoto }: AvatarProps) => {
     const verticalPosition = typingPhoto ? { bottom: 45 } : { top: 0 };
-    if (!message.user_photo) {
+    if (!message.senderPhotoUrl) {
       return (
         <View
           style={[
@@ -74,13 +75,22 @@ const Message = ({
             },
           ]}
         >
-          <Text variant="caption">{message.username[0]}</Text>
+          <Text variant="caption">{message?.username[0]}</Text>
         </View>
       );
     }
     return (
       <Image
-        source={{ uri: message.user_photo }}
+        // style={[
+        //   styles.avatarContainer,
+        //   avatarPosition,
+        //   verticalPosition,
+        //   {
+        //     resizeMode: "cover",
+        //     borderColor: "red",
+        //   },
+        // ]}
+        source={{ uri: message.senderPhotoUrl }}
         style={[styles.avatarContainer, avatarPosition, verticalPosition]}
       />
     );
@@ -107,7 +117,7 @@ const Message = ({
           },
         ]}
       >
-        <Text variant="body">{message.content}</Text>
+        <Text variant="body">{message.text}</Text>
       </View>
       <Avatar typingPhoto={false} />
       <View
