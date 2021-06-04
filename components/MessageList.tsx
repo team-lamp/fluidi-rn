@@ -5,7 +5,6 @@ import useStore from "../store";
 import { Message as MessageType, UsersInRoom } from "../types";
 import Message from "./Message";
 import TypingIndicator from "./TypingIndicator";
-import useStore from "../store";
 
 interface MessageListProps {
   messages: MessageType[];
@@ -30,7 +29,7 @@ const MessageList = ({
           <Message
             message={item}
             showDetails={true}
-            isOwnMessage={Boolean(item.senderUserId == user.id)}
+            isOwnMessage={Boolean(item.userId == user.id)}
             usersInRoom={usersInRoom}
             usersTyping={usersTyping}
           />

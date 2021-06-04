@@ -19,6 +19,7 @@ interface MessageProps {
   isOwnMessage: boolean;
   usersInRoom: UsersInRoom;
   usersTyping: number[];
+  showDetails: boolean;
 }
 
 interface AvatarProps {
@@ -42,13 +43,13 @@ const Message = ({
 
   useEffect(() => {
     const usersCopy = [...usersInRoom];
-    const userId = message.senderUserId;
+    const userId = message.userId;
     setIsUserInRoom(Boolean(usersInRoom.length) && usersCopy.includes(userId));
   }, [usersInRoom]);
 
   useEffect(() => {
     const typingUsersCopy = [...usersTyping];
-    const userId = message.senderUserId;
+    const userId = message.userId;
     if (
       !isOwnMessage &&
       Boolean(typingUsersCopy) &&

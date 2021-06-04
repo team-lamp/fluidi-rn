@@ -37,10 +37,12 @@ const RoomScreen = () => {
   const [usersTyping, setUsersTyping] = useState<number[]>([]);
   const socket = useStore((state) => state.socket);
   const user = useStore((state) => state.user);
-  const messages = useStore((state) => state.messages);
   const showSendButton = Boolean(newMessage && newMessage.length);
   const route: RouteProp<HomeStackParamList, any> = useRoute();
   const [chatRoomId, setChatRoomId] = useState("");
+  const messages = useStore((state) => state.messages).filter(
+    (msg) => msg.chatRoomId === chatRoomId
+  );
 
   const handleSendMessage = () => {
     const messageToSend: MessageToSend = {
