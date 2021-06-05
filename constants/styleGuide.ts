@@ -16,6 +16,7 @@ const colors = {
     brand: "rgba(3, 169, 241, 0.5)",
     white: "rgba(255, 255, 255, 0.5)",
     green: "rgba(5, 206, 87, 0.1)",
+    greenLight: "rgba(5, 206, 87, 0.4)",
     secondaryBackground: "rgba(7, 7, 10, 0.5)",
   },
   actions: {

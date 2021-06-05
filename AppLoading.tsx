@@ -38,8 +38,8 @@ const AppLoading = ({ children }: any) => {
     });
 
     // when the server sends us a list of rooms the client user is in
-    socket.on("rooms list", (rooms: Room[]) => {
-      console.log("fetched rooms", rooms);
+    socket.on("rooms list", (rooms: Record<any, any>) => {
+      console.log("fetched rooms", JSON.stringify(rooms));
       setRooms(rooms);
     });
 

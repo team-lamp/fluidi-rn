@@ -10,7 +10,7 @@ import RoomListItem from "./RoomListItem";
 
 const RoomList = ({ navigation }: any) => {
   const user: null | User = useStore((state) => state.user);
-  const rooms: Room[] = useStore((state) => state.rooms);
+  const rooms: Record<any, any> = useStore((state) => state.rooms);
   const socket = useStore((state) => state.socket);
   const token = useStore((state) => state.token);
 
@@ -22,7 +22,7 @@ const RoomList = ({ navigation }: any) => {
 
   return (
     <FlatList
-      data={rooms}
+      data={Object.values(rooms)}
       renderItem={({ item }) => (
         <RoomListItem room={item} navigation={navigation} />
       )}

@@ -52,11 +52,23 @@ export type Room = {
   talkRoomId: string;
 };
 
+export type RoomResponse = {
+  id: number;
+  name: string;
+  photoUrl: string | null;
+  public: boolean;
+  uuid: string;
+  chatRoomId: string;
+  talkRoomId: string;
+  users: User[];
+};
+
 export type User = {
-  id?: number;
-  username?: string;
-  displayName?: string;
-  photo?: string;
+  id: number;
+  username: string;
+  firstName: string;
+  lastName: string | null;
+  photoUrl: string | null;
 };
 
 export type UsersInRoom = Number[] | [];

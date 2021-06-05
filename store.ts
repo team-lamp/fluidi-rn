@@ -12,8 +12,8 @@ interface AppState {
   setSocket: (socket: Socket) => void;
   token: null | string;
   setToken: (token: string) => void;
-  rooms: Room[];
-  setRooms: (rooms: Room[]) => void;
+  rooms: Record<any, any>;
+  setRooms: (rooms: Record<any, any>) => void;
   messages: Message[];
   setMessages: (message: Message[]) => void;
 }

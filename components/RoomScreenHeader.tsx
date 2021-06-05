@@ -1,17 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { Button, Icon, Thumbnail } from "native-base";
 import { colors } from "../constants/styleGuide";
 import Text from "./themed/Text";
 import { useRoute, useNavigation } from "@react-navigation/native";
+import Avatar from "./themed/Avatar";
 
 const RoomScreenHeader = () => {
   const route = useRoute();
   const navigation = useNavigation();
+  // @ts-ignore
+  const isGroup = route.params?.isGroup;
+  // @ts-ignore
+  const name = isGroup ? route.params?.name : "Katie";
+  const hasPhoto = isGroup
+    ? Boolean(route.params?.photoUrl)
+    : Boolean(route.params?.users[0].photoUrl);
+  const uri = isGroup
+    ? route.params?.photoUrl
+    : route.params?.users[0].photoUrl;
+
+  console.log(route.params);
+
+  useEffect(() => {
+    console.log(route.params);
+  }, []);
 
   const handleAvatarPress = () => {
     // @ts-ignore
-    if (route.params.isGroup) {
+    if (isGroup) {
       navigation.navigate("TalkScreen", route.params);
     } else {
       navigation.navigate("ContactDetails", route.params);
@@ -20,34 +36,22 @@ const RoomScreenHeader = () => {
 
   return (
     <View style={styles.header}>
-      {/* @ts-ignore */}
-      {route.params.avatar ? (
+      {hasPhoto ? (
         <TouchableOpacity onPress={handleAvatarPress}>
-          <Thumbnail
-            // @ts-ignore
-            source={{ uri: route.params.avatar }}
-            small
-            style={{ borderWidth: 1, borderColor: colors.lowOpacity.brand }}
-          />
+          <Avatar uri={uri} variant="small" />
         </TouchableOpacity>
       ) : (
         <TouchableOpacity onPress={handleAvatarPress}>
-          <View
-            style={[
-              styles.blankAvatar,
-              { borderWidth: 1, borderColor: colors.lowOpacity.brand },
-            ]}
-          >
-            <Text variant="caption" style={{ color: colors.contrastText }}>
-              {/* @ts-ignore */}
-              {route.params.name[0]}
-            </Text>
-          </View>
+          <Avatar
+            variant="small"
+            textVariant="body"
+            viewStyle={{ backgroundColor: colors.lowOpacity.greenLight }}
+            letter={name[0]}
+          />
         </TouchableOpacity>
       )}
       <Text variant="title" style={{ marginLeft: 10 }}>
-        {/* @ts-ignore */}
-        {route.params.name}
+        {name}
       </Text>
     </View>
   );
@@ -60,14 +64,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginLeft: -25,
-  },
-  blankAvatar: {
-    height: 36,
-    width: 36,
-    backgroundColor: colors.secondaryBackground,
-    borderRadius: 36 / 2,
-    alignItems: "center",
-    justifyContent: "center",
   },
 });
 

@@ -17,16 +17,6 @@ import useStore from "../store";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 
-const messageTemplate = {
-  id: Date.now() + Math.random(), // in case two messages are sent at the same time
-  username: "You",
-  senderUserId: 1,
-  createdAt: new Date().toDateString(),
-  text: "",
-  senderPhotoUrl:
-    "https://scontent-ort2-2.xx.fbcdn.net/v/t1.6435-9/119815423_3332879713474763_8048010738081328737_n.jpg?_nc_cat=103&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=Zj4PekDIPHEAX_zCmxf&_nc_ht=scontent-ort2-2.xx&oh=295e3be89c1131937c94122678249a3f&oe=60D5797F",
-};
-
 const RoomScreen = () => {
   const insets = useSafeAreaInsets();
   const inputRef = useRef<TextInput>(null);
@@ -45,20 +35,13 @@ const RoomScreen = () => {
   );
 
   const handleSendMessage = () => {
-    const messageToSend: MessageToSend = {
-      ...messageTemplate,
-      text: newMessage,
-      chatRoomId,
-    };
-    // setMessages([messageToSend, ...messages]);
-    setNewMessage("");
-    inputRef.current?.clear();
-
     const msg: MessageToSend = {
       chatRoomId,
-      text: messageToSend.text,
+      text: newMessage,
     };
     socket?.emit("send chat message", msg);
+    setNewMessage("");
+    inputRef.current?.clear();
   };
 
   useEffect(() => {
@@ -179,29 +162,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     minHeight: 40,
     maxHeight: 200,
-  },
-  iconContainer: {
-    flexDirection: "row",
-    paddingTop: 10,
-    paddingHorizontal: 25,
-    justifyContent: "space-between",
-  },
-  leftIconContainer: {
-    flexDirection: "row",
-    marginLeft: 10,
-  },
-  iconButton: {
-    backgroundColor: colors.brandDark,
-    height: 40,
-    width: 40,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 8,
-    marginRight: 10,
-  },
-  leftIcons: {
-    color: colors.contrastText,
-    fontSize: 25,
   },
 });
 
