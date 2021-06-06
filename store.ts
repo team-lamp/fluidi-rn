@@ -32,10 +32,11 @@ const useStore = createStore<AppState>(
     },
     (set) => ({
       user: {
-        displayName: "no user",
+        username: "no user",
         id: 0,
-        photo: "none",
-        username: "no_user",
+        photoUrl: "none",
+        firstName: "User",
+        lastName: "none",
       },
       token: null,
       socket: null,
@@ -47,7 +48,7 @@ const useStore = createStore<AppState>(
         set(() => ({ token }));
       },
       rooms: [],
-      setRooms: (rooms: Room[]) => set(() => ({ rooms })),
+      setRooms: (rooms) => set(() => ({ rooms })),
       messages: [],
       setMessages: (messages: Message[]) => set(() => ({ messages })),
     })

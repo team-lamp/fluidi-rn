@@ -39,8 +39,12 @@ const AppLoading = ({ children }: any) => {
 
     // when the server sends us a list of rooms the client user is in
     socket.on("rooms list", (rooms: Record<any, any>) => {
-      console.log("fetched rooms", JSON.stringify(rooms));
       setRooms(rooms);
+
+      // for every room we are a member of, join that room on the server
+      Object.values(rooms).forEach((chatRoomId: string) => {
+        socket.emit("join room", chatRoomId);
+      });
     });
 
     socket.on("online-users", (data: any) => {
@@ -48,7 +52,12 @@ const AppLoading = ({ children }: any) => {
       console.log(data);
     });
 
-    socket.on("chat messages", (messages: Message[]) => {
+    socket.on("new chat message", (chatMessage) => {
+      console.log("new message received", chatMessage);
+      socket.emit("fetch messages", chatMessage.chatRoomId);
+    });
+
+    socket.on("chat message list", (messages: Message[]) => {
       console.log("messages incoming", messages);
       setMessages(messages);
     });
