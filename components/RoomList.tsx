@@ -29,32 +29,59 @@ const RoomList = ({ navigation }: any) => {
       keyExtractor={(item) => String(item.id)}
       style={styles.list}
       ListFooterComponent={
-        <TouchableOpacity
-          style={styles.addRoomButton}
-          onPress={async () => {
-            try {
-              const res = await axios.post(
-                `${API_URL}/rooms/create`,
-                {
-                  name: "Test Room1",
-                },
-                {
-                  headers: {
-                    authorization: token,
+        <View>
+          <TouchableOpacity
+            style={styles.addRoomButton}
+            onPress={async () => {
+              try {
+                const res = await axios.post(
+                  `${API_URL}/rooms/create`,
+                  {
+                    name: "Test Room1",
                   },
-                }
-              );
-              console.log(res.data);
-              console.log("room created!");
-              // fetch the rooms now that we've added a new one. the server will send back a "rooms list" emit
-              socket?.emit("fetch rooms");
-            } catch (err) {
-              console.log(err);
-            }
-          }}
-        >
-          <Text style={{ color: "black", fontSize: 54 }}>Create room</Text>
-        </TouchableOpacity>
+                  {
+                    headers: {
+                      authorization: token,
+                    },
+                  }
+                );
+                console.log(res.data);
+                console.log("room created!");
+                // fetch the rooms now that we've added a new one. the server will send back a "rooms list" emit
+                socket?.emit("fetch rooms");
+              } catch (err) {
+                console.log(err);
+              }
+            }}
+          >
+            <Text style={{ color: "black", fontSize: 54 }}>Create room</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.addRoomButton}
+            onPress={async () => {
+              try {
+                const res = await axios.post(
+                  `${API_URL}/rooms/join`,
+                  {
+                    uuid: "048d0665-129d-4398-89a9-7f7d7bbc1a12",
+                  },
+                  {
+                    headers: {
+                      authorization: token,
+                    },
+                  }
+                );
+                console.log(res.data);
+                console.log("room joined!");
+                socket?.emit("join room", res.data.uuid);
+              } catch (err) {
+                console.log(err);
+              }
+            }}
+          >
+            <Text style={{ color: "black", fontSize: 54 }}>Join a room</Text>
+          </TouchableOpacity>
+        </View>
       }
       //   ListFooterComponent={
       //     <TouchableOpacity

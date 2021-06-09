@@ -8,16 +8,21 @@ import Avatar from "./themed/Avatar";
 const RoomScreenHeader = () => {
   const route = useRoute();
   const navigation = useNavigation();
+  console.log("route", route);
   // @ts-ignore
   const isGroup = route.params?.isGroup;
   // @ts-ignore
   const name = isGroup ? route.params?.name : "Katie";
   const hasPhoto = isGroup
-    ? Boolean(route.params?.photoUrl)
-    : Boolean(route.params?.users[0].photoUrl);
+    ? // @ts-ignore
+      Boolean(route.params?.photoUrl)
+    : // @ts-ignore
+      Boolean(route.params?.users[0]?.photoUrl);
   const uri = isGroup
-    ? route.params?.photoUrl
-    : route.params?.users[0].photoUrl;
+    ? // @ts-ignore
+      route?.params?.photoUrl
+    : // @ts-ignore
+      route?.params?.users[0]?.photoUrl;
 
   console.log(route.params);
 
