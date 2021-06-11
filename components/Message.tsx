@@ -1,18 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Text from "./themed/Text";
-import {
-  StyleSheet,
-  Image,
-  StyleSheetProperties,
-  StyleProp,
-  ViewStyle,
-  ImageStyle,
-} from "react-native";
-import { BlurView } from "expo-blur";
-import { View, Thumbnail } from "native-base";
+import { StyleSheet } from "react-native";
+import { View } from "native-base";
 import { Message as MessageType, UsersInRoom } from "../types";
 import { colors } from "../constants/styleGuide";
-import TypingIndicator from "./TypingIndicator";
 
 interface MessageProps {
   message: MessageType;
@@ -20,10 +11,6 @@ interface MessageProps {
   usersInRoom: UsersInRoom;
   usersTyping: number[];
   showDetails: boolean;
-}
-
-interface AvatarProps {
-  typingPhoto: boolean;
 }
 
 const Message = ({
@@ -34,12 +21,6 @@ const Message = ({
 }: MessageProps) => {
   const [isUserInRoom, setIsUserInRoom] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
-
-  const onlineOfflineColor = isUserInRoom
-    ? colors.actions.play
-    : colors.secondaryText;
-  const onlineOfflinePosition = isOwnMessage ? { right: 0 } : { left: 0 };
-  const avatarPosition = isOwnMessage ? { right: 6 } : { left: 6 };
 
   useEffect(() => {
     const usersCopy = [...usersInRoom];
@@ -61,41 +42,6 @@ const Message = ({
     }
   }, [usersTyping]);
 
-  const Avatar = ({ typingPhoto }: AvatarProps) => {
-    const verticalPosition = typingPhoto ? { bottom: 45 } : { top: 0 };
-    if (!message.senderPhotoUrl) {
-      return (
-        <View
-          style={[
-            styles.avatarContainer,
-            avatarPosition,
-            verticalPosition,
-            {
-              backgroundColor: colors.dim,
-            },
-          ]}
-        >
-          <Text variant="caption">{message?.username[0]}</Text>
-        </View>
-      );
-    }
-    return (
-      <Image
-        // style={[
-        //   styles.avatarContainer,
-        //   avatarPosition,
-        //   verticalPosition,
-        //   {
-        //     resizeMode: "cover",
-        //     borderColor: "red",
-        //   },
-        // ]}
-        source={{ uri: message.senderPhotoUrl }}
-        style={[styles.avatarContainer, avatarPosition, verticalPosition]}
-      />
-    );
-  };
-
   return (
     <View
       style={[
@@ -110,50 +56,11 @@ const Message = ({
             backgroundColor: isOwnMessage
               ? colors.lowOpacity.brand
               : colors.lowOpacity.secondaryBackground,
-            paddingLeft: isOwnMessage ? 10 : 20,
-            paddingRight: isOwnMessage ? 20 : 10,
-            marginLeft: isOwnMessage ? 0 : 10,
-            marginRight: isOwnMessage ? 10 : 0,
           },
         ]}
       >
         <Text variant="body">{message.text}</Text>
       </View>
-      <Avatar typingPhoto={false} />
-      <View
-        style={[
-          {
-            position: "absolute",
-            top: 20,
-            height: 12,
-            width: 12,
-            borderRadius: 12 / 2,
-            backgroundColor: onlineOfflineColor,
-            zIndex: 100,
-          },
-          onlineOfflinePosition,
-        ]}
-      />
-      {isTyping && (
-        <>
-          <Avatar typingPhoto={true} />
-          <View
-            style={[
-              {
-                position: "absolute",
-                bottom: 45,
-                height: 12,
-                width: 12,
-                borderRadius: 12 / 2,
-                backgroundColor: onlineOfflineColor,
-                zIndex: 100,
-              },
-              onlineOfflinePosition,
-            ]}
-          />
-          <TypingIndicator isTyping={isTyping} />
-        </>
-      )}
     </View>
   );
 };
@@ -168,16 +75,9 @@ const styles = StyleSheet.create({
   contentContainer: {
     maxWidth: "75%",
     paddingVertical: 5,
-    paddingHorizontal: 10,
+    paddingHorizontal: 13,
     alignItems: "center",
     borderRadius: 15,
-  },
-  avatarContainer: {
-    height: 34,
-    width: 34,
-    borderRadius: 34 / 2,
-    position: "absolute",
-    zIndex: 50,
   },
 });
 

@@ -4,9 +4,14 @@ import { colors } from "../constants/styleGuide";
 import Text from "./themed/Text";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import Avatar from "./themed/Avatar";
+import useStore from "../store";
 
 const RoomScreenHeader = () => {
   const route = useRoute();
+
+  const user = useStore((state) => state.user);
+  // @ts-ignore
+  const otherUser = route.params?.users?.filter((u) => u.id !== user.id);
   const navigation = useNavigation();
   console.log("route", route);
   // @ts-ignore
@@ -35,7 +40,7 @@ const RoomScreenHeader = () => {
     if (isGroup) {
       navigation.navigate("TalkScreen", route.params);
     } else {
-      navigation.navigate("ContactDetails", route.params);
+      navigation.navigate("ContactDetails", { ...route.params, otherUser });
     }
   };
 

@@ -5,7 +5,7 @@ import { View } from "react-native";
 import { API_URL } from "../constants/secrets";
 import { colors } from "../constants/styleGuide";
 import useStore from "../store";
-import { User, Room } from "../types";
+import { User } from "../types";
 import RoomListItem from "./RoomListItem";
 
 const RoomList = ({ navigation }: any) => {
@@ -20,6 +20,48 @@ const RoomList = ({ navigation }: any) => {
     // socket?.emit("fetch rooms", user?.id);
   }, []);
 
+  const handleAddRoom = async () => {
+    try {
+      const res = await axios.post(
+        `${API_URL}/rooms/create`,
+        {
+          name: "Katie",
+        },
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
+      console.log(res.data);
+      console.log("room created!");
+      // fetch the rooms now that we've added a new one. the server will send back a "rooms list" emit
+      socket?.emit("fetch rooms");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleJoinRoom = async () => {
+    try {
+      const res = await axios.post(
+        `${API_URL}/rooms/join`,
+        {
+          uuid: "048d0665-129d-4398-89a9-7f7d7bbc1a12",
+        },
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
+      console.log(res.data);
+      console.log("room joined!");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <FlatList
       data={Object.values(rooms)}
@@ -32,71 +74,18 @@ const RoomList = ({ navigation }: any) => {
         <View>
           <TouchableOpacity
             style={styles.addRoomButton}
-            onPress={async () => {
-              try {
-                const res = await axios.post(
-                  `${API_URL}/rooms/create`,
-                  {
-                    name: "Test Room1",
-                  },
-                  {
-                    headers: {
-                      authorization: token,
-                    },
-                  }
-                );
-                console.log(res.data);
-                console.log("room created!");
-                // fetch the rooms now that we've added a new one. the server will send back a "rooms list" emit
-                socket?.emit("fetch rooms");
-              } catch (err) {
-                console.log(err);
-              }
-            }}
+            onPress={handleAddRoom}
           >
             <Text style={{ color: "black", fontSize: 54 }}>Create room</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.addRoomButton}
-            onPress={async () => {
-              try {
-                const res = await axios.post(
-                  `${API_URL}/rooms/join`,
-                  {
-                    uuid: "048d0665-129d-4398-89a9-7f7d7bbc1a12",
-                  },
-                  {
-                    headers: {
-                      authorization: token,
-                    },
-                  }
-                );
-                console.log(res.data);
-                console.log("room joined!");
-                socket?.emit("join room", res.data.uuid);
-              } catch (err) {
-                console.log(err);
-              }
-            }}
+            onPress={handleJoinRoom}
           >
             <Text style={{ color: "black", fontSize: 54 }}>Join a room</Text>
           </TouchableOpacity>
         </View>
       }
-      //   ListFooterComponent={
-      //     <TouchableOpacity
-      //       style={styles.addRoomButton}
-      //       onPress={() => {
-      //         socket?.emit("createRoom", {
-      //           name: "Test Room",
-      //           photo: "",
-      //         });
-      //         console.log("room created!");
-      //       }}
-      //     >
-      //       <Text style={{ color: "black", fontSize: 54 }}>Create room</Text>
-      //     </TouchableOpacity>
-      //   }
       ItemSeparatorComponent={() => <View style={styles.separator} />}
     />
   );

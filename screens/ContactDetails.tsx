@@ -4,7 +4,9 @@ import { View } from "native-base";
 import Text from "../components/themed/Text";
 import { colors } from "../constants/styleGuide";
 
-const ContactDetails = ({ navigation }: any) => {
+const ContactDetails = ({ navigation, route }: any) => {
+  console.log("HERE");
+  console.log(route);
   return (
     <SafeAreaView style={styles.container}>
       <View>

@@ -61,6 +61,7 @@ export type RoomResponse = {
   chatRoomId: string;
   talkRoomId: string;
   users: User[];
+  roomUuid: string;
 };
 
 export type User = {

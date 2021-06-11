@@ -5,7 +5,7 @@ import {
   TouchableOpacityProps,
 } from "react-native";
 import Text from "./themed/Text";
-import { View, Thumbnail, Icon } from "native-base";
+import { View, Icon } from "native-base";
 import { colors } from "../constants/styleGuide";
 import { RoomResponse } from "../types";
 import Avatar from "./themed/Avatar";
@@ -27,6 +27,7 @@ const RoomListItem = ({ navigation, room }: RoomListItemProps) => {
     chatRoomId: room.chatRoomId,
     talkRoomId: room.talkRoomId,
     users: room.users,
+    roomUuid: room.roomUuid,
   };
 
   useEffect(() => {

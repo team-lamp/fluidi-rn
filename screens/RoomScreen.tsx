@@ -81,6 +81,8 @@ const RoomScreen = () => {
         setUsersInRoom(data);
       }
     });
+    socket?.emit("fetch messages", route.params?.chatRoomId);
+
     socket?.off("typing").on("typing", (data: number[]) => {
       console.log(data);
       setUsersTyping(data);
